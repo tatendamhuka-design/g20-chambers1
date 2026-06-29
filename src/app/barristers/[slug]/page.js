@@ -2,7 +2,6 @@
 
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   ArrowLeft,
   Mail,
@@ -11,9 +10,6 @@ import {
   BookOpen,
   Award,
   MapPin,
-  Star,
-  Users,
-  Briefcase,
   FileDown,
   ChevronRight
 } from 'lucide-react'
