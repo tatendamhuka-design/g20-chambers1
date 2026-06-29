@@ -1,43 +1,43 @@
 export const barristers = [
   // ===== HEAD OF CHAMBERS =====
   {
-  id: 1,
-  slug: 'barrister-mathabatha',
-  name: 'Barrister Mathabatha',
-  title: 'Head of Chambers',
-  level: 'head',
-  yearOfCall: 2005,
-  practiceAreas: ['Criminal Law', 'Human Rights', 'Civil Litigation', 'Constitutional Law'],
-  availability: 'accepting',
-  rating: 4.9,
-  reviewCount: 27,
-  bio: `Barrister Mathabatha is the founding Head of G20 Chambers. With over 19 years of experience at the Bar, he is a leading advocate in Limpopo, known for his fearless representation in complex criminal and human rights cases.
+    id: 1,
+    slug: 'barrister-mathabatha',
+    name: 'Barrister Mathabatha',
+    title: 'Head of Chambers',
+    level: 'head',
+    yearOfCall: 2005,
+    practiceAreas: ['Criminal Law', 'Human Rights', 'Civil Litigation', 'Constitutional Law'],
+    availability: 'accepting',
+    rating: 4.9,
+    reviewCount: 27,
+    bio: `Barrister Mathabatha is the founding Head of G20 Chambers. With over 19 years of experience at the Bar, he is a leading advocate in Limpopo, known for his fearless representation in complex criminal and human rights cases.
 
 He has successfully handled numerous high-profile matters, including landmark constitutional challenges and appeals before the Supreme Court of Appeal. His commitment to justice and the rule of law has earned him a reputation as one of the most respected advocates in the region.
 
 Barrister Mathabatha is also deeply committed to access to justice, regularly providing pro bono services and mentoring young advocates. He believes in the power of the law to transform lives and fights tirelessly for every client, no matter how powerful the opponent.`,
-  email: 'cali.mathabatha@gmail.com',
-  phone: '082 341 3333',
-  education: 'LLB, University of Limpopo',
-  callToBar: '2005 - High Court of South Africa',
-  chambers: 'G20 Chambers, Limpopo',
-  profileImage: '/images/barristers/mathabatha.jpg',  // ← This is the path
-  social: {
-    linkedin: 'https://linkedin.com/in/barrister-mathabatha',
-    twitter: 'https://twitter.com/barrister_mathabatha',
+    email: 'cali.mathabatha@gmail.com',
+    phone: '082 341 3333',
+    education: 'LLB, University of Limpopo',
+    callToBar: '2005 - High Court of South Africa',
+    chambers: 'G20 Chambers, Limpopo',
+    profileImage: '/images/barristers/mathabatha.jpg',
+    social: {
+      linkedin: 'https://linkedin.com/in/barrister-mathabatha',
+      twitter: 'https://twitter.com/barrister_mathabatha',
+    },
+    notableCases: [
+      { title: 'Landmark constitutional challenge - R v. State', year: 2024, description: 'Successfully challenged unlawful detention, setting a precedent for due process in Limpopo.' },
+      { title: 'Successful human rights appeal - S v. Mthembu', year: 2023, description: 'Secured the release of a client wrongly convicted, reinforcing the right to a fair trial.' },
+      { title: 'Complex criminal defence - State v. Ramaphosa', year: 2022, description: 'Acquitted a client of serious criminal charges through meticulous cross-examination.' },
+      { title: 'Civil rights victory - Community Land Claim', year: 2021, description: 'Negotiated a historic settlement returning ancestral land to a local community.' },
+    ],
+    reviews: [
+      { id: 1, client: 'S. Mthembu', rating: 5, date: 'June 2024', comment: 'Barrister Mathabatha fought tirelessly for my freedom. I will be forever grateful.' },
+      { id: 2, client: 'T. Ramaphosa', rating: 5, date: 'March 2024', comment: 'Professional, compassionate, and relentless. The best advocate in Limpopo.' },
+      { id: 3, client: 'D. Patel', rating: 4, date: 'January 2024', comment: 'Very knowledgeable and strategic. Helped me navigate a complex legal matter.' },
+    ],
   },
-  notableCases: [
-    { title: 'Landmark constitutional challenge - R v. State', year: 2024, description: 'Successfully challenged unlawful detention, setting a precedent for due process in Limpopo.' },
-    { title: 'Successful human rights appeal - S v. Mthembu', year: 2023, description: 'Secured the release of a client wrongly convicted, reinforcing the right to a fair trial.' },
-    { title: 'Complex criminal defence - State v. Ramaphosa', year: 2022, description: 'Acquitted a client of serious criminal charges through meticulous cross-examination.' },
-    { title: 'Civil rights victory - Community Land Claim', year: 2021, description: 'Negotiated a historic settlement returning ancestral land to a local community.' },
-  ],
-  reviews: [
-    { id: 1, client: 'S. Mthembu', rating: 5, date: 'June 2024', comment: 'Barrister Mathabatha fought tirelessly for my freedom. I will be forever grateful.' },
-    { id: 2, client: 'T. Ramaphosa', rating: 5, date: 'March 2024', comment: 'Professional, compassionate, and relentless. The best advocate in Limpopo.' },
-    { id: 3, client: 'D. Patel', rating: 4, date: 'January 2024', comment: 'Very knowledgeable and strategic. Helped me navigate a complex legal matter.' },
-  ],
-},
   
   // ===== SENIOR BARRISTERS =====
   {
@@ -221,8 +221,12 @@ Barrister Mathabatha is also deeply committed to access to justice, regularly pr
   },
 ]
 
-// Helper functions
+// ===== HELPER FUNCTIONS =====
+
+// Get all unique practice areas for filtering
 export const practiceAreas = [...new Set(barristers.flatMap(b => b.practiceAreas))].sort()
+
+// Get all unique availability statuses
 export const availabilityStatuses = ['accepting', 'limited', 'full']
 
 // Get a barrister by slug
@@ -262,14 +266,4 @@ export function getGroupedBarristers() {
     label: levelLabels[level],
     members: getBarristersByLevel(level),
   })).filter(group => group.members.length > 0)
-}
-
-// At the bottom of src/data/barristers.js
-export function getRelatedBarristers(slug, limit = 3) {
-  const current = getBarristerBySlug(slug)
-  if (!current) return []
-  
-  return barristers
-    .filter(b => b.id !== current.id && b.practiceAreas.some(area => current.practiceAreas.includes(area)))
-    .slice(0, limit)
 }
