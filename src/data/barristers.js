@@ -263,3 +263,13 @@ export function getGroupedBarristers() {
     members: getBarristersByLevel(level),
   })).filter(group => group.members.length > 0)
 }
+
+// At the bottom of src/data/barristers.js
+export function getRelatedBarristers(slug, limit = 3) {
+  const current = getBarristerBySlug(slug)
+  if (!current) return []
+  
+  return barristers
+    .filter(b => b.id !== current.id && b.practiceAreas.some(area => current.practiceAreas.includes(area)))
+    .slice(0, limit)
+}
