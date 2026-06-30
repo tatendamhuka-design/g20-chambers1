@@ -6,14 +6,10 @@ import {
   Mail,
   Phone,
   Calendar,
-  BookOpen,
   Award,
   MapPin,
   FileDown,
-  ChevronRight,
-  Star,
-  Users,
-  Briefcase
+  ChevronRight
 } from 'lucide-react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
@@ -82,15 +78,15 @@ export default function BarristerProfileClient({ barrister }) {
   }
 
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Header />
 
       {/* ===== PREMIUM HERO SECTION ===== */}
-      <section className="relative bg-gradient-to-br from-[#2C4355] via-[#3a5a6e] to-[#1a2a3a] text-white py-12 md:py-16 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
         
-        <div className="container max-w-5xl mx-auto relative z-10 px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Link
             href="/barristers"
             className="inline-flex items-center gap-2 text-gray-400 hover:text-[#c9a84c] transition-colors mb-6 text-sm"
@@ -100,9 +96,7 @@ export default function BarristerProfileClient({ barrister }) {
             Back to all barristers
           </Link>
 
-          {/* Profile Header */}
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            {/* Avatar with Image */}
             <div className="relative flex-shrink-0">
               <div className="w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#c9a84c] shadow-2xl shadow-[#c9a84c]/30 bg-[#1a2a3a]">
                 {barrister.profileImage && !imageError ? (
@@ -113,32 +107,29 @@ export default function BarristerProfileClient({ barrister }) {
                     onError={() => setImageError(true)}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-white bg-[#2C4355]">
+                  <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-white bg-[#0a1628]">
                     {getInitials(barrister.name)}
                   </div>
                 )}
               </div>
-              {/* Availability Badge Below Avatar */}
               <div className="flex justify-center mt-3">
                 <PremiumAvailabilityBadge status={barrister.availability} />
               </div>
             </div>
 
-            {/* Name and Details */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-1">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
                   {barrister.name}
                 </h1>
                 {barrister.title === 'Head of Chambers' && (
-                  <span className="bg-[#c9a84c] text-[#2C4355] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+                  <span className="bg-[#c9a84c] text-[#0a1628] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">
                     Head of Chambers
                   </span>
                 )}
               </div>
               <p className="text-lg text-[#c9a84c] font-semibold">{barrister.title}</p>
               
-              {/* Meta Info */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-3">
                 <div className="flex items-center gap-2 text-gray-300 text-sm">
                   <Calendar className="w-4 h-4 text-[#c9a84c]" />
@@ -149,39 +140,24 @@ export default function BarristerProfileClient({ barrister }) {
                 </div>
               </div>
 
-              {/* Social Links */}
               {(barrister.social?.linkedin || barrister.social?.twitter) && (
                 <div className="flex gap-2 mt-3 justify-center md:justify-start">
                   {barrister.social?.linkedin && (
-                    <a
-                      href={barrister.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1 bg-white/10 hover:bg-[#c9a84c] text-white hover:text-[#2C4355] rounded-full text-xs font-semibold transition-all duration-300 border border-white/20"
-                    >
+                    <a href={barrister.social.linkedin} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-white/10 hover:bg-[#c9a84c] text-white hover:text-[#0a1628] rounded-full text-xs font-semibold transition-all duration-300 border border-white/20">
                       LinkedIn
                     </a>
                   )}
                   {barrister.social?.twitter && (
-                    <a
-                      href={barrister.social.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1 bg-white/10 hover:bg-[#c9a84c] text-white hover:text-[#2C4355] rounded-full text-xs font-semibold transition-all duration-300 border border-white/20"
-                    >
+                    <a href={barrister.social.twitter} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-white/10 hover:bg-[#c9a84c] text-white hover:text-[#0a1628] rounded-full text-xs font-semibold transition-all duration-300 border border-white/20">
                       Twitter/X
                     </a>
                   )}
                 </div>
               )}
 
-              {/* Practice Areas */}
               <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-start">
                 {barrister.practiceAreas.map((area) => (
-                  <span
-                    key={area}
-                    className="bg-white/10 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full border border-white/20"
-                  >
+                  <span key={area} className="bg-white/10 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full border border-white/20">
                     {area}
                   </span>
                 ))}
@@ -190,20 +166,18 @@ export default function BarristerProfileClient({ barrister }) {
           </div>
         </div>
 
-        {/* Gold Bottom Border */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
       {/* ===== MAIN CONTENT ===== */}
       <section className="py-10 md:py-14 bg-white">
-        <div className="container max-w-5xl mx-auto px-4">
-          {/* Contact Info Bar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 p-4 bg-[#faf8f5] rounded-xl border border-[#e8e0d4]">
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-[#c9a84c] flex-shrink-0" />
               <div>
                 <p className="text-[10px] text-[#888] font-medium uppercase tracking-wider">Email</p>
-                <a href={`mailto:${barrister.email}`} className="text-sm text-[#2C4355] hover:text-[#c9a84c] transition-colors font-medium break-all">
+                <a href={`mailto:${barrister.email}`} className="text-sm text-[#0a1628] hover:text-[#c9a84c] transition-colors font-medium break-all">
                   {barrister.email}
                 </a>
               </div>
@@ -212,7 +186,7 @@ export default function BarristerProfileClient({ barrister }) {
               <Phone className="w-5 h-5 text-[#c9a84c] flex-shrink-0" />
               <div>
                 <p className="text-[10px] text-[#888] font-medium uppercase tracking-wider">Phone</p>
-                <a href={`tel:${barrister.phone}`} className="text-sm text-[#2C4355] hover:text-[#c9a84c] transition-colors font-medium">
+                <a href={`tel:${barrister.phone}`} className="text-sm text-[#0a1628] hover:text-[#c9a84c] transition-colors font-medium">
                   {barrister.phone}
                 </a>
               </div>
@@ -221,14 +195,13 @@ export default function BarristerProfileClient({ barrister }) {
               <MapPin className="w-5 h-5 text-[#c9a84c] flex-shrink-0" />
               <div>
                 <p className="text-[10px] text-[#888] font-medium uppercase tracking-wider">Chambers</p>
-                <p className="text-sm text-[#2C4355] font-medium">{barrister.chambers}</p>
+                <p className="text-sm text-[#0a1628] font-medium">{barrister.chambers}</p>
               </div>
             </div>
           </div>
 
-          {/* Biography */}
           <div className="mb-10">
-            <h2 className="text-2xl font-extrabold text-[#2C4355] mb-4 flex items-center gap-3">
+            <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
               <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
               Biography
             </h2>
@@ -237,10 +210,9 @@ export default function BarristerProfileClient({ barrister }) {
             </div>
           </div>
 
-          {/* Notable Cases */}
           {barrister.notableCases && barrister.notableCases.length > 0 && (
             <div className="mb-10">
-              <h2 className="text-2xl font-extrabold text-[#2C4355] mb-4 flex items-center gap-3">
+              <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
                 Notable Cases
               </h2>
@@ -250,7 +222,7 @@ export default function BarristerProfileClient({ barrister }) {
                     <div className="flex items-start gap-3">
                       <Award className="w-5 h-5 text-[#c9a84c] mt-0.5 flex-shrink-0" />
                       <div>
-                        <h4 className="font-bold text-[#2C4355]">
+                        <h4 className="font-bold text-[#0a1628]">
                           {caseItem.title}
                         </h4>
                         <p className="text-[#555] text-sm mt-1 leading-relaxed">{caseItem.description}</p>
@@ -265,10 +237,9 @@ export default function BarristerProfileClient({ barrister }) {
             </div>
           )}
 
-          {/* Client Reviews */}
           {barrister.reviews && barrister.reviews.length > 0 && (
             <div className="mb-10">
-              <h2 className="text-2xl font-extrabold text-[#2C4355] mb-4 flex items-center gap-3">
+              <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
                 Client Reviews
               </h2>
@@ -277,7 +248,7 @@ export default function BarristerProfileClient({ barrister }) {
                   <div key={review.id} className="bg-white rounded-xl p-4 border border-[#e8e0d4] shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex flex-wrap items-center justify-between mb-1.5">
                       <div className="flex items-center gap-3">
-                        <span className="font-bold text-[#2C4355] text-sm">{review.client}</span>
+                        <span className="font-bold text-[#0a1628] text-sm">{review.client}</span>
                         <PremiumStarRating rating={review.rating} />
                       </div>
                       <span className="text-xs text-[#888]">{review.date}</span>
@@ -289,20 +260,11 @@ export default function BarristerProfileClient({ barrister }) {
             </div>
           )}
 
-          {/* Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-[#e8e0d4]">
-            <a
-              href="/contact"
-              className="bg-[#c9a84c] text-[#2C4355] px-4 py-2.5 font-bold rounded-xl hover:bg-[#e0c66e] transition-all text-center text-sm"
-            >
+            <a href="/contact" className="bg-[#c9a84c] text-[#0a1628] px-4 py-2.5 font-bold rounded-xl hover:bg-[#e0c66e] transition-all text-center text-sm">
               Enquire About This Barrister
             </a>
-            <a
-              href="https://wa.me/27823413333"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#2C4355] text-white px-4 py-2.5 font-bold rounded-xl hover:bg-[#1a2a3a] transition-all text-center text-sm"
-            >
+            <a href="https://wa.me/27823413333" target="_blank" rel="noopener noreferrer" className="bg-[#0a1628] text-white px-4 py-2.5 font-bold rounded-xl hover:bg-[#1a2a3a] transition-all text-center text-sm">
               Chat on WhatsApp
             </a>
             <button
@@ -345,17 +307,16 @@ ${barrister.notableCases?.map(c => `- ${c.title} (${c.year})`).join('\n')}
                 document.body.removeChild(a)
                 URL.revokeObjectURL(url)
               }}
-              className="bg-transparent text-[#2C4355] px-4 py-2.5 font-semibold rounded-xl border-2 border-[#e8e0d4] hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all text-center text-sm flex items-center justify-center gap-2"
+              className="bg-transparent text-[#0a1628] px-4 py-2.5 font-semibold rounded-xl border-2 border-[#e8e0d4] hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all text-center text-sm flex items-center justify-center gap-2"
             >
               <FileDown className="w-4 h-4" />
               Download CV
             </button>
           </div>
 
-          {/* Related Barristers */}
           {relatedBarristers.length > 0 && (
             <div className="mt-12 pt-10 border-t border-[#e8e0d4]">
-              <h2 className="text-xl font-extrabold text-[#2C4355] mb-6 text-center">
+              <h2 className="text-xl font-extrabold text-[#0a1628] mb-6 text-center">
                 Related <span className="text-[#c9a84c]">Barristers</span>
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -366,10 +327,10 @@ ${barrister.notableCases?.map(c => `- ${c.title} (${c.year})`).join('\n')}
                     className="group bg-[#faf8f5] rounded-xl p-4 border border-[#e8e0d4] hover:border-[#c9a84c] hover:shadow-lg transition-all duration-300 text-center hover:-translate-y-1"
                     suppressHydrationWarning
                   >
-                    <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#2C4355] to-[#1a2a3a] flex items-center justify-center text-lg font-bold text-white mb-2 group-hover:from-[#c9a84c] group-hover:to-[#e0c66e] transition-all duration-300">
+                    <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#0a1628] to-[#1a2a3a] flex items-center justify-center text-lg font-bold text-white mb-2 group-hover:from-[#c9a84c] group-hover:to-[#e0c66e] transition-all duration-300">
                       {related.name.split(' ').map(n => n[0]).join('')}
                     </div>
-                    <h3 className="font-bold text-[#2C4355] text-sm group-hover:text-[#c9a84c] transition-colors">
+                    <h3 className="font-bold text-[#0a1628] text-sm group-hover:text-[#c9a84c] transition-colors">
                       {related.name}
                     </h3>
                     <p className="text-[#c9a84c] text-xs font-semibold">{related.title}</p>
