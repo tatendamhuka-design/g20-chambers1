@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { X, Mail, Phone, Calendar, Award } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import StarRating from './StarRating'
 import AvailabilityBadge from './AvailabilityBadge'
 
@@ -30,10 +31,18 @@ export default function QuickViewModal({ barrister, onClose }) {
 
         {/* Content */}
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Avatar */}
+          {/* Avatar with Image */}
           <div className="flex-shrink-0">
-            <div className="w-32 h-32 rounded-full bg-[#0a1628] flex items-center justify-center text-3xl font-bold text-white">
-              {barrister.name.split(' ').map(n => n[0]).join('')}
+            <div className="w-32 h-32 rounded-full bg-[#0a1628] flex items-center justify-center text-3xl font-bold text-white overflow-hidden">
+              {barrister.profileImage ? (
+                <img 
+                  src={barrister.profileImage} 
+                  alt={barrister.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                barrister.name.split(' ').map(n => n[0]).join('')
+              )}
             </div>
           </div>
 
