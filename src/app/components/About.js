@@ -71,32 +71,35 @@ export default function About() {
 
           {/* Image Column - RIGHT */}
           <div className="relative order-2">
-            <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
-              {!imgError ? (
-                <>
-                  <Image
-                    src="/images/about-image.jpg"
-                    alt="G20 Chambers - Advocates with integrity"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover hover:scale-105 transition-transform duration-700"
-                    onError={() => setImgError(true)}
-                  />
-                  <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
-                </>
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
-                  <div className="text-center text-white p-8">
-                    <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
-                    <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
-                    <p className="text-sm text-gray-400">Advocates with integrity</p>
+            <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-visible shadow-2xl">
+              {/* Image Container with overflow-hidden for the image only */}
+              <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                {!imgError ? (
+                  <>
+                    <Image
+                      src="/images/about-image.jpg"
+                      alt="G20 Chambers - Advocates with integrity"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover hover:scale-105 transition-transform duration-700"
+                      onError={() => setImgError(true)}
+                    />
+                    <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
+                  </>
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
+                    <div className="text-center text-white p-8">
+                      <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
+                      <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
+                      <p className="text-sm text-gray-400">Advocates with integrity</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
               
-              {/* Est. 2005 Badge - Now with higher z-index and better positioning */}
-              <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 bg-[#c9a84c] text-[#0a1628] px-4 py-2 md:px-5 md:py-2.5 rounded-xl shadow-2xl text-xs md:text-sm font-bold flex items-center gap-2 z-20 border-2 border-white/20">
-                <Award className="w-3 h-3 md:w-4 md:h-4" />
+              {/* Est. 2005 Badge - Now outside the overflow-hidden container */}
+              <div className="absolute -bottom-4 -right-4 bg-[#c9a84c] text-[#0a1628] px-5 py-2.5 rounded-xl shadow-2xl text-sm font-bold flex items-center gap-2 z-20 border-2 border-white/30">
+                <Award className="w-4 h-4" />
                 Est. 2005
               </div>
             </div>
