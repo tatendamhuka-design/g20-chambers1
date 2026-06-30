@@ -13,35 +13,11 @@
 
 @layer components {
   .container {
-    @apply max-w-7xl mx-auto px-4;
-  }
-  
-  @media (min-width: 640px) {
-    .container {
-      @apply px-6;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container {
-      @apply px-8;
-    }
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-16;
-  }
-  
-  @media (min-width: 768px) {
-    .section-padding {
-      @apply py-20;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .section-padding {
-      @apply py-24;
-    }
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
   }
 
   .gold-gradient {

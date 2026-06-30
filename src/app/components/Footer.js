@@ -8,7 +8,7 @@ const footerNav = [
 export default function Footer() {
   return (
     <footer className="bg-[#060e1e] text-[#aab] pt-12 pb-6 border-t-4 border-[#c9a84c]">
-      <div className="container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
           {/* Brand Column */}
           <div>

@@ -23,15 +23,15 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#0a1628] border-b-4 border-[#c9a84c]">
-      <div className="container">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 md:h-24">
           <Link 
             href="/" 
-            className="flex items-center gap-2 md:gap-3 group flex-shrink-0"
+            className="flex items-center gap-3 md:gap-4 group flex-shrink-0"
             suppressHydrationWarning
           >
             {!imgError ? (
-              <div className="relative w-10 h-10 md:w-12 md:h-14 flex-shrink-0">
+              <div className="relative w-12 h-12 md:w-14 md:h-16 flex-shrink-0">
                 <Image
                   src="/images/logo.jpg"
                   alt="G20 Chambers"
@@ -43,22 +43,22 @@ export default function Header() {
                 />
               </div>
             ) : (
-              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#c9a84c] flex items-center justify-center text-sm md:text-lg font-extrabold text-[#0a1628] flex-shrink-0">
+              <div className="w-12 h-12 md:w-14 md:h-16 rounded-full bg-[#c9a84c] flex items-center justify-center text-lg md:text-xl font-extrabold text-[#0a1628] flex-shrink-0">
                 G20
               </div>
             )}
             
             <div className="flex flex-col min-w-0">
-              <span className="text-sm sm:text-lg md:text-xl font-extrabold text-white tracking-wide truncate">
+              <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-white tracking-wide truncate">
                 G20 <span className="text-[#c9a84c]">Chambers</span>
               </span>
-              <span className="text-[0.4rem] sm:text-[0.5rem] md:text-[0.55rem] font-light tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.25em] uppercase text-[#aab] -mt-0.5 truncate">
+              <span className="text-[0.5rem] sm:text-[0.55rem] md:text-[0.6rem] font-light tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.25em] uppercase text-[#aab] -mt-0.5 truncate">
                 The home of premier barristers
               </span>
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}

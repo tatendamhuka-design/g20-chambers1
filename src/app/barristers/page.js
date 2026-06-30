@@ -15,10 +15,8 @@ export default function BarristersPage() {
   const [sortBy, setSortBy] = useState('seniority')
   const [selectedBarrister, setSelectedBarrister] = useState(null)
 
-  // Get grouped barristers
   const groupedBarristers = getGroupedBarristers()
 
-  // Filter barristers
   const filteredBarristers = barristers.filter(barrister => {
     const matchesArea = selectedArea === 'All' || barrister.practiceAreas.includes(selectedArea)
     const matchesAvailability = selectedAvailability === 'All' || barrister.availability === selectedAvailability
@@ -27,7 +25,6 @@ export default function BarristersPage() {
     return matchesArea && matchesAvailability && matchesSearch
   })
 
-  // Sort barristers
   const sortedBarristers = [...filteredBarristers].sort((a, b) => {
     if (sortBy === 'name') {
       return a.name.localeCompare(b.name)
@@ -57,11 +54,11 @@ export default function BarristersPage() {
   const hasActiveFilters = selectedArea !== 'All' || selectedAvailability !== 'All' || searchTerm
 
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Header />
 
       <section className="section-padding bg-white">
-        <div className="container">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#0a1628] tracking-tight">
               Our <span className="text-[#c9a84c]">Barristers</span>
@@ -185,11 +182,9 @@ export default function BarristersPage() {
             )}
           </div>
 
-          {/* Hierarchy Display */}
           {sortedBarristers.length > 0 ? (
             <div className="space-y-12">
               {groupedBarristers.map((group) => {
-                // Filter group members
                 const filteredMembers = group.members.filter(m => 
                   sortedBarristers.some(s => s.id === m.id)
                 )

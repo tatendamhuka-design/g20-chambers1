@@ -12,7 +12,7 @@ const practiceAreas = [
 export default function PracticeAreas() {
   return (
     <section id="areas" className="section-padding bg-[#faf8f5]">
-      <div className="container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a1628] tracking-tight">
             Our <span className="text-[#c9a84c]">Areas of Law</span>

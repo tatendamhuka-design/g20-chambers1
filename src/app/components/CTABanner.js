@@ -1,7 +1,7 @@
 export default function CTABanner() {
   return (
     <section className="py-16 md:py-20 bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] border-y-4 border-[#c9a84c] text-center">
-      <div className="container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 tracking-tight">
           Ready to <span className="text-[#c9a84c]">work with us</span>?
         </h2>

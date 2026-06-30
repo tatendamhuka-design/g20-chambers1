@@ -97,12 +97,12 @@ export default function ContactPage() {
   const instructedOptions = ['No', 'Yes']
 
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* Hero Section - Centered on all devices */}
+      {/* Hero Section */}
       <section className="bg-[#0a1628] text-white py-12 md:py-16 border-b-4 border-[#c9a84c]">
-        <div className="container max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-[#c9a84c] transition-colors mb-4 text-sm">
             <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
@@ -120,7 +120,7 @@ export default function ContactPage() {
 
       {/* Main Content */}
       <section className="py-12 md:py-16 bg-white">
-        <div className="container max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Small Paragraph */}
           <div className="max-w-3xl mx-auto text-center mb-12">
             <p className="text-[#555] text-lg leading-relaxed">
@@ -160,7 +160,6 @@ export default function ContactPage() {
                 <h2 className="text-lg font-extrabold text-[#0a1628] mb-6 text-center lg:text-left">Get in Touch</h2>
                 
                 <div className="space-y-5">
-                  {/* Address */}
                   <div className="flex items-start gap-4 justify-start">
                     <div className="w-10 h-10 rounded-full bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-5 h-5 text-[#c9a84c]" />
@@ -172,7 +171,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Phone */}
                   <div className="flex items-start gap-4 justify-start">
                     <div className="w-10 h-10 rounded-full bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0">
                       <Phone className="w-5 h-5 text-[#c9a84c]" />
@@ -185,7 +183,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Email */}
                   <div className="flex items-start gap-4 justify-start">
                     <div className="w-10 h-10 rounded-full bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5 text-[#c9a84c]" />
@@ -198,7 +195,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Hours */}
                   <div className="flex items-start gap-4 justify-start">
                     <div className="w-10 h-10 rounded-full bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0">
                       <Clock className="w-5 h-5 text-[#c9a84c]" />
@@ -210,7 +206,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Head of Chambers */}
                   <div className="flex items-start gap-4 justify-start">
                     <div className="w-10 h-10 rounded-full bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0">
                       <Building className="w-5 h-5 text-[#c9a84c]" />
@@ -221,12 +216,10 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* WhatsApp CTA - REMOVED */}
               </div>
             </div>
 
-            {/* Right Column - Premium Form */}
+            {/* Right Column - Form */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl p-6 md:p-8 border border-[#e8e0d4] shadow-sm">
                 <div className="flex items-center justify-between mb-6">
@@ -240,7 +233,6 @@ export default function ContactPage() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Name - First Name + Surname */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
@@ -272,7 +264,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Email + Telephone */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
@@ -303,7 +294,6 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Enquiry Type */}
                   <div>
                     <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
                       Nature of your enquiry *
@@ -327,7 +317,6 @@ export default function ContactPage() {
                     </select>
                   </div>
 
-                  {/* Practice Area */}
                   <div>
                     <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
                       Area of your enquiry
@@ -350,7 +339,6 @@ export default function ContactPage() {
                     </select>
                   </div>
 
-                  {/* Details */}
                   <div>
                     <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
                       Details *
@@ -366,7 +354,6 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  {/* Instructed Before */}
                   <div>
                     <label className="block text-xs font-semibold text-[#888] uppercase tracking-wider mb-1.5">
                       Have you instructed G20 Chambers before? *
