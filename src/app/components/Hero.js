@@ -30,7 +30,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/70 to-transparent md:from-[#0a1628]/90 md:via-[#0a1628]/70"></div>
       </div>
 
-      <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="text-center md:text-left max-w-2xl lg:max-w-3xl mx-auto md:mx-0">
           <p className="text-xs md:text-base font-semibold tracking-[0.25em] uppercase text-[#c9a84c] mb-3 md:mb-4 animate-fadeIn">
             G20 Chambers

@@ -8,7 +8,7 @@ export default function About() {
   const [imgError, setImgError] = useState(false)
 
   return (
-    <section id="about" className="section-padding bg-white relative overflow-hidden">
+    <section id="about" className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[#c9a84c]/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[#c9a84c]/5 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4"></div>
@@ -94,7 +94,7 @@ export default function About() {
                 </div>
               )}
               
-              {/* Est. 2005 Badge - ALWAYS VISIBLE */}
+              {/* Est. 2005 Badge */}
               <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 bg-[#c9a84c] text-[#0a1628] px-4 py-2 md:px-5 md:py-2.5 rounded-xl shadow-lg text-xs md:text-sm font-bold flex items-center gap-2 z-10">
                 <Award className="w-3 h-3 md:w-4 md:h-4" />
                 Est. 2005

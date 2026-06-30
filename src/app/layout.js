@@ -25,7 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
@@ -34,7 +34,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className={`${merriweatherSans.variable} font-merriweather-sans antialiased`}>
+      <body 
+        className={`${merriweatherSans.variable} font-merriweather-sans antialiased`}
+        suppressHydrationWarning
+      >
         {children}
         <WhatsAppButton phoneNumber="+27823413333" />
       </body>
