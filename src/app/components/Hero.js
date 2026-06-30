@@ -27,7 +27,8 @@ export default function Hero() {
             <div className="absolute top-1/2 left-1/2 w-1/4 h-1/4 bg-[#c9a84c]/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/70 to-transparent md:from-[#0a1628]/90 md:via-[#0a1628]/70"></div>
+        {/* Lighter Overlay - Reduced opacity so image is more visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/70 via-[#0a1628]/50 to-transparent md:from-[#0a1628]/70 md:via-[#0a1628]/50"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">

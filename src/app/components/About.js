@@ -94,8 +94,8 @@ export default function About() {
                 </div>
               )}
               
-              {/* Est. 2005 Badge */}
-              <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 bg-[#c9a84c] text-[#0a1628] px-4 py-2 md:px-5 md:py-2.5 rounded-xl shadow-lg text-xs md:text-sm font-bold flex items-center gap-2 z-10">
+              {/* Est. 2005 Badge - Now with higher z-index and better positioning */}
+              <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 bg-[#c9a84c] text-[#0a1628] px-4 py-2 md:px-5 md:py-2.5 rounded-xl shadow-2xl text-xs md:text-sm font-bold flex items-center gap-2 z-20 border-2 border-white/20">
                 <Award className="w-3 h-3 md:w-4 md:h-4" />
                 Est. 2005
               </div>
