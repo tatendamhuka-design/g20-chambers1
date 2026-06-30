@@ -22,7 +22,7 @@ export default function Header() {
   const [imgError, setImgError] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-[#2C4355] border-b-4 border-[#c9a84c]">
+    <header className="sticky top-0 z-50 bg-[#0a1628] border-b-4 border-[#c9a84c]">
       <div className="container">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link 
@@ -33,7 +33,7 @@ export default function Header() {
             {!imgError ? (
               <div className="relative w-10 h-10 md:w-12 md:h-14 flex-shrink-0">
                 <Image
-                  src="/images/g20 logo.jpg"
+                  src="/images/logo.jpg"
                   alt="G20 Chambers"
                   width={56}
                   height={56}
@@ -43,7 +43,7 @@ export default function Header() {
                 />
               </div>
             ) : (
-              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#c9a84c] flex items-center justify-center text-sm md:text-lg font-extrabold text-[#2C4355] flex-shrink-0">
+              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#c9a84c] flex items-center justify-center text-sm md:text-lg font-extrabold text-[#0a1628] flex-shrink-0">
                 G20
               </div>
             )}
@@ -83,7 +83,7 @@ export default function Header() {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden bg-[#2C4355] border-t border-[#1a2a3a]">
+        <div className="lg:hidden bg-[#0a1628] border-t border-[#1a2a3a]">
           <div className="container py-4 space-y-3">
             {navigation.map((item) => (
               <Link

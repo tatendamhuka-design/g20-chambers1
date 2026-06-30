@@ -2,69 +2,104 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { Scale, Users, Award, ChevronRight } from 'lucide-react'
 
 export default function About() {
   const [imgError, setImgError] = useState(false)
 
   return (
-    <section id="about" className="section-padding bg-white">
-      <div className="container">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="text-center md:text-left">
-            <span className="inline-block bg-[#2C4355] text-[#c9a84c] text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4">
+    <section id="about" className="section-padding bg-white relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[#c9a84c]/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4"></div>
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[#c9a84c]/5 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4"></div>
+      
+      <div className="container relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Image Column */}
+          <div className="relative order-2 lg:order-1">
+            <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
+              {!imgError ? (
+                <>
+                  <Image
+                    src="/images/about-image.jpg"
+                    alt="G20 Chambers - Advocates with integrity"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    onError={() => setImgError(true)}
+                  />
+                  <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
+                  <div className="text-center text-white p-8">
+                    <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
+                    <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
+                    <p className="text-sm text-gray-400">Advocates with integrity</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Floating badge */}
+              <div className="absolute -bottom-4 -right-4 bg-[#c9a84c] text-[#0a1628] px-5 py-2.5 rounded-xl shadow-lg text-sm font-bold flex items-center gap-2">
+                <Award className="w-4 h-4" />
+                Est. 2005
+              </div>
+            </div>
+          </div>
+
+          {/* Text Column */}
+          <div className="order-1 lg:order-2">
+            <span className="inline-block bg-[#0a1628] text-[#c9a84c] text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5">
               About G20 Chambers
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#2C4355] leading-tight mb-4 tracking-tight">
-              Advocates with <span className="text-[#c9a84c]">integrity</span>,<br />
+            
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a1628] leading-tight mb-4">
+              Advocates with <span className="text-[#c9a84c]">integrity</span>,
               driven by <span className="text-[#c9a84c]">excellence</span>
             </h2>
-            <div className="text-lg font-semibold text-[#2C4355] border-l-4 border-[#c9a84c] pl-5 my-4 leading-relaxed text-left md:text-left">
-              Our mission is to provide top-notch advocate services to clients in Limpopo.
+            
+            <div className="bg-[#faf8f5] p-5 rounded-xl border-l-4 border-[#c9a84c] mb-6">
+              <p className="text-lg font-semibold text-[#0a1628] leading-relaxed">
+                "Our mission is to provide top-notch advocate services to clients in Limpopo."
+              </p>
             </div>
-            <p className="text-[#444] text-lg leading-relaxed mb-4">
+            
+            <p className="text-[#444] text-base md:text-lg leading-relaxed mb-4">
               G20 Chambers brings together a collective of passionate advocates
-              who are committed to fighting for justice. As <strong>"A group of Advocates"</strong>,
+              who are committed to fighting for justice. As <strong className="text-[#0a1628]">"A group of Advocates"</strong>,
               we pride ourselves on delivering strategic, robust, and
               compassionate legal representation.
             </p>
-            <p className="text-[#444] text-lg leading-relaxed mb-4">
-              Led by <strong>Barrister Mathabatha</strong>, our chambers has deep roots in Limpopo 
+            
+            <p className="text-[#444] text-base md:text-lg leading-relaxed mb-6">
+              Led by <strong className="text-[#0a1628]">Barrister Mathabatha</strong>, our chambers has deep roots in Limpopo 
               and a reputation for excellence. Our barristers are regularly instructed 
               in complex, high-profile cases across all areas of law.
             </p>
-            <a href="/about" className="text-[#c9a84c] font-semibold hover:underline inline-block mt-2">
-              Learn more about us →
-            </a>
-          </div>
-
-          <div className="relative flex justify-center md:justify-end">
-            {!imgError ? (
-              <div className="relative h-72 md:h-96 w-full max-w-md rounded-xl overflow-hidden shadow-xl">
-                <Image
-                  src="/images/about-image.jpg"
-                  alt="G20 Chambers - Advocates with integrity"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  onError={() => setImgError(true)}
-                />
-                <div className="absolute inset-0 border-2 border-[#c9a84c]/30 rounded-xl pointer-events-none"></div>
-                <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-[#c9a84c]/10 rounded-full blur-2xl"></div>
-                <div className="absolute -top-3 -left-3 w-24 h-24 bg-[#c9a84c]/10 rounded-full blur-2xl"></div>
-              </div>
-            ) : (
-              <div className="relative h-72 md:h-96 w-full max-w-md rounded-xl overflow-hidden bg-gradient-to-br from-[#2C4355] to-[#1a2a3a] flex items-center justify-center border-2 border-dashed border-[#c9a84c]">
-                <div className="text-center text-white p-8">
-                  <div className="text-6xl mb-4">⚖️</div>
-                  <p className="text-lg font-semibold text-[#c9a84c]">G20 Chambers</p>
-                  <p className="text-sm text-gray-400">Advocates with integrity</p>
-                </div>
-              </div>
-            )}
             
-            <div className="absolute -bottom-4 -right-4 bg-[#c9a84c] text-[#2C4355] px-4 py-2 rounded-lg shadow-lg text-sm font-bold">
-              Est. 2005
+            <div className="flex flex-wrap gap-6 mb-6">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span className="text-sm font-medium text-[#555]">15+ Barristers</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span className="text-sm font-medium text-[#555]">20+ Years Experience</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span className="text-sm font-medium text-[#555]">Limpopo-Based</span>
+              </div>
             </div>
+            
+            <a 
+              href="/about" 
+              className="inline-flex items-center gap-2 text-[#c9a84c] font-semibold hover:gap-3 transition-all group"
+            >
+              Learn more about us
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
         </div>
       </div>
