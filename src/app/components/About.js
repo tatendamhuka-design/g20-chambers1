@@ -2,67 +2,70 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { Scale, Users, Award, ChevronRight } from 'lucide-react'
+import { Scale, Users, Award, ChevronRight, Calendar, MapPin, Building } from 'lucide-react'
 
 export default function About() {
   const [imgError, setImgError] = useState(false)
 
   return (
     <section id="about" className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
-      {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[#c9a84c]/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[#c9a84c]/5 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-          {/* Text Column - LEFT */}
+          {/* Text Content - LEFT */}
           <div className="order-1">
             <span className="inline-block bg-[#0a1628] text-[#c9a84c] text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5">
               About G20 Chambers
             </span>
             
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a1628] leading-tight mb-4">
-              Advocates with <span className="text-[#c9a84c]">integrity</span>,
-              driven by <span className="text-[#c9a84c]">excellence</span>
+              The home of <span className="text-[#c9a84c]">premier barristers</span> in Limpopo
             </h2>
             
             <div className="bg-[#faf8f5] p-5 rounded-xl border-l-4 border-[#c9a84c] mb-6">
               <p className="text-lg font-semibold text-[#0a1628] leading-relaxed">
-                "Our mission is to provide top-notch advocate services to clients in Limpopo."
+                "G20 Chambers is a group of barristers who are members of the Limpopo Bar, a constituent member of the General Council of the Bar of South Africa (GCB)."
               </p>
             </div>
             
-            <p className="text-[#444] text-base md:text-lg leading-relaxed mb-4">
-              G20 Chambers brings together a collective of passionate advocates
-              who are committed to fighting for justice. As <strong className="text-[#0a1628]">"A group of Advocates"</strong>,
-              we pride ourselves on delivering strategic, robust, and
-              compassionate legal representation.
-            </p>
+            <div className="space-y-4 text-[#444] text-base md:text-lg leading-relaxed">
+              <p>
+                <strong className="text-[#0a1628]">G20 Chambers</strong> was established in <strong className="text-[#0a1628]">2021</strong> by a group of passionate advocates: 
+                <span className="text-[#0a1628]"> Adv. Malose Monene, Adv. Cali Mathabatha, Adv. Sentle Fenyane, Adv. Germain Ledwaba, and Adv. Chuene Rammutla</span>.
+                They were soon joined by <span className="text-[#0a1628]">Adv. Isaac Maila, Adv. Eunice Thete, Adv. Lindiwe Vilakazi, and Adv. Sydney Mgimeti</span>.
+              </p>
+              
+              <p>
+                The group now has <strong className="text-[#0a1628]">14 barristers</strong> and is situated at 
+                <span className="text-[#0a1628] font-semibold"> 39 Voortrekker Street, Polokwane</span> at the STATSA Campus, 
+                directly across from the Limpopo High Court Building.
+              </p>
+            </div>
             
-            <p className="text-[#444] text-base md:text-lg leading-relaxed mb-6">
-              Led by <strong className="text-[#0a1628]">Barrister Mathabatha</strong>, our chambers has deep roots in Limpopo 
-              and a reputation for excellence. Our barristers are regularly instructed 
-              in complex, high-profile cases across all areas of law.
-            </p>
-            
-            <div className="flex flex-wrap gap-6 mb-6">
+            <div className="flex flex-wrap gap-6 mt-6">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span className="text-sm font-medium text-[#555]">15+ Barristers</span>
+                <span className="text-sm font-medium text-[#555]">14+ Barristers</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span className="text-sm font-medium text-[#555]">20+ Years Experience</span>
+                <span className="text-sm font-medium text-[#555]">Est. 2021</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span className="text-sm font-medium text-[#555]">Limpopo-Based</span>
+                <span className="text-sm font-medium text-[#555]">Limpopo Bar</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span className="text-sm font-medium text-[#555]">GCB Member</span>
               </div>
             </div>
             
             <a 
               href="/about" 
-              className="inline-flex items-center gap-2 text-[#c9a84c] font-semibold hover:gap-3 transition-all group"
+              className="inline-flex items-center gap-2 text-[#c9a84c] font-semibold hover:gap-3 transition-all group mt-4"
             >
               Learn more about us
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -71,36 +74,32 @@ export default function About() {
 
           {/* Image Column - RIGHT */}
           <div className="relative order-2">
-            <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-visible shadow-2xl">
-              {/* Image Container with overflow-hidden for the image only */}
-              <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                {!imgError ? (
-                  <>
-                    <Image
-                      src="/images/about-image.jpg"
-                      alt="G20 Chambers - Advocates with integrity"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover hover:scale-105 transition-transform duration-700"
-                      onError={() => setImgError(true)}
-                    />
-                    <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
-                  </>
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
-                    <div className="text-center text-white p-8">
-                      <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
-                      <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
-                      <p className="text-sm text-gray-400">Advocates with integrity</p>
-                    </div>
+            <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
+              {!imgError ? (
+                <>
+                  <Image
+                    src="/images/about-image.jpg"
+                    alt="G20 Chambers - The home of premier barristers in Limpopo"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    onError={() => setImgError(true)}
+                  />
+                  <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
+                  <div className="text-center text-white p-8">
+                    <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
+                    <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
+                    <p className="text-sm text-gray-400">The home of premier barristers</p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
               
-              {/* Est. 2005 Badge - Now outside the overflow-hidden container */}
               <div className="absolute -bottom-4 -right-4 bg-[#c9a84c] text-[#0a1628] px-5 py-2.5 rounded-xl shadow-2xl text-sm font-bold flex items-center gap-2 z-20 border-2 border-white/30">
                 <Award className="w-4 h-4" />
-                Est. 2005
+                Est. 2021
               </div>
             </div>
           </div>

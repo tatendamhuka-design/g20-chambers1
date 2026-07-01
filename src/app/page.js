@@ -27,3 +27,17 @@ export default function Home() {
     </main>
   )
 }
+
+export const metadata = {
+  title: 'G20 Chambers | The home of premier barristers in Limpopo',
+  description: 'G20 Chambers is a leading group of barristers at the Limpopo Bar. Expert legal representation in Criminal Law, Family Law, Human Rights, Civil Litigation, and more. Call 082 341 3333.',
+  keywords: 'barristers Limpopo, advocates Polokwane, criminal lawyers Limpopo, family law attorneys Polokwane, human rights lawyers South Africa',
+  openGraph: {
+    title: 'G20 Chambers | The home of premier barristers in Limpopo',
+    description: 'Expert legal representation in Criminal Law, Family Law, Human Rights, and Civil Litigation from G20 Chambers in Polokwane, Limpopo.',
+    url: 'https://g20chambers.co.za',
+    siteName: 'G20 Chambers',
+    locale: 'en_ZA',
+    type: 'website',
+  },
+}

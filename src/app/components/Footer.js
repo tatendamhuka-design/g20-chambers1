@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const footerNav = [
-  'About', 'Barristers', 'Clerks & Staff', 'Areas of Law',
+  'About', 'Barristers', 'Admin & Staff', 'Areas of Law',
   'Public Access', 'News & Blogs', 'Events', 'Join Us', 'Contact'
 ]
 

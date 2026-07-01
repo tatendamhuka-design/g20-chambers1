@@ -1,0 +1,102 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Admin users (for login)
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Barristers
+model Barrister {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  title         String
+  yearOfCall    Int?
+  practiceAreas String   // JSON string: ["Criminal Law", "Human Rights"]
+  availability  String   @default("accepting") // accepting, limited, full
+  rating        Float?   @default(0)
+  reviewCount   Int      @default(0)
+  bio           String?  // Text field without @db.Text
+  email         String?
+  phone         String?
+  education     String?
+  profileImage  String?
+  socialLinks   String?  // JSON string: {"linkedin": "", "twitter": ""}
+  notableCases  String?  // JSON string: [{"title": "", "year": 2024, "description": ""}]
+  reviews       String?  // JSON string: [{"client": "", "rating": 5, "date": "", "comment": ""}]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relation to News
+  news          News[]
+}
+
+// Staff (Non-barrister employees)
+model Staff {
+  id            String   @id @default(cuid())
+  name          String
+  role          String   // Administrator, Handyman, etc.
+  email         String?
+  phone         String?
+  department    String?  // Administration, Maintenance, etc.
+  bio           String?  // Remove @db.Text for SQLite
+  profileImage  String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// News & Blog
+model News {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  category      String   // case-update, chambers-news, legal-analysis, event, press-release
+  authorId      String?
+  author        Barrister? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  featuredImage String?
+  excerpt       String?
+  content       String?  // HTML content
+  publishedDate DateTime
+  seoMetaTitle  String?
+  seoMetaDesc   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Newsletter Subscribers
+model Subscriber {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  status        String   @default("active") // active, unsubscribed
+  subscribedAt  DateTime @default(now())
+  unsubscribedAt DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Newsletters (sent emails)
+model Newsletter {
+  id            String   @id @default(cuid())
+  subject       String
+  content       String?  // HTML email content
+  status        String   @default("draft") // draft, sent, scheduled
+  sentDate      DateTime?
+  recipients    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
