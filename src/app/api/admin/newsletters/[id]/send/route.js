@@ -4,7 +4,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 const prisma = new PrismaClient()
 
-// POST - Send a newsletter
 export async function POST(request, { params }) {
   const session = await getServerSession(authOptions)
 
@@ -25,13 +24,9 @@ export async function POST(request, { params }) {
       return Response.json({ error: 'Newsletter already sent' }, { status: 400 })
     }
 
-    // Get all active subscribers
     const subscribers = await prisma.subscriber.findMany({
       where: { status: 'active' }
     })
-
-    // Here you would integrate with Resend/SendGrid to send emails
-    // For now, we'll just mark it as sent
 
     const updated = await prisma.newsletter.update({
       where: { id: params.id },

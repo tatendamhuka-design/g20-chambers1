@@ -1,9 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-gold: #c9a84c;
-  --color-navy: #0a1628;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {
@@ -22,10 +19,6 @@
 
   .gold-gradient {
     background: linear-gradient(90deg, #c9a84c, #e8d48b, #c9a84c);
-  }
-
-  .gold-border {
-    border-bottom: 4px solid #c9a84c;
   }
 }
 

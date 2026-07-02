@@ -4,7 +4,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 const prisma = new PrismaClient()
 
-// GET - Get a single barrister
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions)
 
@@ -34,7 +33,6 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT - Update a barrister
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions)
 
@@ -71,7 +69,6 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE - Delete a barrister
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions)
 
