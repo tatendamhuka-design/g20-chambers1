@@ -43,3 +43,4 @@ export async function POST(request) {
     return Response.json({ error: 'Failed to subscribe' }, { status: 500 })
   }
 }
+
