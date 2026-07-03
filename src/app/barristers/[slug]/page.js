@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
+import Breadcrumb from '@/components/Breadcrumb' // Added import
 
 const prisma = new PrismaClient()
 
@@ -156,6 +157,14 @@ export default async function BarristerProfile({ params }) {
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
+
+      {/* Breadcrumb */}
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <Breadcrumb items={[
+          { label: 'Barristers', href: '/barristers' },
+          { label: barrister.name, href: `/barristers/${barrister.slug}` },
+        ]} />
+      </div>
 
       {/* Schema Markup */}
       <script

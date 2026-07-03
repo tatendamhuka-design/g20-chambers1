@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import BarristerCard from '../components/BarristerCard'
 import QuickViewModal from '../components/QuickViewModal'
+import Breadcrumb from '../components/Breadcrumb'
 
 export default function BarristersPage() {
   const [barristers, setBarristers] = useState([])
@@ -28,7 +29,6 @@ export default function BarristersPage() {
       const data = await res.json()
       const barristersData = data.barristers || []
       
-      // Parse practiceAreas for each barrister
       const parsedBarristers = barristersData.map(barrister => ({
         ...barrister,
         practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
@@ -36,7 +36,6 @@ export default function BarristersPage() {
       
       setBarristers(parsedBarristers)
       
-      // Extract unique practice areas
       const areas = [...new Set(parsedBarristers.flatMap(b => b.practiceAreas))].sort()
       setPracticeAreas(areas)
     } catch (error) {
@@ -61,7 +60,6 @@ export default function BarristersPage() {
     { value: 'rating', label: 'Highest Rated First' },
   ]
 
-  // Filter barristers
   const filteredBarristers = barristers.filter(barrister => {
     const matchesArea = selectedArea === 'All' || barrister.practiceAreas.includes(selectedArea)
     const matchesAvailability = selectedAvailability === 'All' || barrister.availability === selectedAvailability
@@ -70,7 +68,6 @@ export default function BarristersPage() {
     return matchesArea && matchesAvailability && matchesSearch
   })
 
-  // Sort barristers
   const sortedBarristers = [...filteredBarristers].sort((a, b) => {
     if (sortBy === 'name') {
       return a.name.localeCompare(b.name)
@@ -105,6 +102,10 @@ export default function BarristersPage() {
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <Breadcrumb items={[{ label: 'Barristers', href: '/barristers' }]} />
+      </div>
 
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
