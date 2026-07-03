@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
-import Breadcrumb from '@/components/Breadcrumb' // Added import
+import Breadcrumb from '@/app/components/Breadcrumb'
 
 const prisma = new PrismaClient()
 
