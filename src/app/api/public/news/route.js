@@ -5,10 +5,11 @@ const prisma = new PrismaClient()
 // GET - Public news listing
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get('page')) || 1
-    const limit = parseInt(searchParams.get('limit')) || 9
-    const category = searchParams.get('category') || ''
+    // Parse URL parameters manually without using request.url directly
+    const url = new URL(request.url)
+    const page = parseInt(url.searchParams.get('page')) || 1
+    const limit = parseInt(url.searchParams.get('limit')) || 9
+    const category = url.searchParams.get('category') || ''
 
     const skip = (page - 1) * limit
 
@@ -43,3 +44,6 @@ export async function GET(request) {
     return Response.json({ error: 'Failed to fetch news' }, { status: 500 })
   }
 }
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'

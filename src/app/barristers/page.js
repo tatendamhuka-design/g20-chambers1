@@ -1,22 +1,67 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import BarristerCard from '../components/BarristerCard'
 import QuickViewModal from '../components/QuickViewModal'
-import { barristers, practiceAreas, availabilityStatuses, getGroupedBarristers } from '@/data/barristers'
 
 export default function BarristersPage() {
+  const [barristers, setBarristers] = useState([])
+  const [loading, setLoading] = useState(true)
   const [selectedArea, setSelectedArea] = useState('All')
   const [selectedAvailability, setSelectedAvailability] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('seniority')
   const [selectedBarrister, setSelectedBarrister] = useState(null)
+  const [practiceAreas, setPracticeAreas] = useState([])
 
-  const groupedBarristers = getGroupedBarristers()
+  useEffect(() => {
+    fetchBarristers()
+  }, [])
 
+  const fetchBarristers = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/admin/barristers?limit=100')
+      const data = await res.json()
+      const barristersData = data.barristers || []
+      
+      // Parse practiceAreas for each barrister
+      const parsedBarristers = barristersData.map(barrister => ({
+        ...barrister,
+        practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
+      }))
+      
+      setBarristers(parsedBarristers)
+      
+      // Extract unique practice areas
+      const areas = [...new Set(parsedBarristers.flatMap(b => b.practiceAreas))].sort()
+      setPracticeAreas(areas)
+    } catch (error) {
+      console.error('Error fetching barristers:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const availabilityLabels = {
+    accepting: 'Accepting New Cases',
+    limited: 'Limited Availability',
+    full: 'Not Accepting Cases',
+  }
+
+  const availabilityStatuses = ['accepting', 'limited', 'full']
+
+  const sortOptions = [
+    { value: 'seniority', label: 'Seniority (Most Senior First)' },
+    { value: 'seniority-desc', label: 'Seniority (Most Junior First)' },
+    { value: 'name', label: 'Alphabetical (A-Z)' },
+    { value: 'rating', label: 'Highest Rated First' },
+  ]
+
+  // Filter barristers
   const filteredBarristers = barristers.filter(barrister => {
     const matchesArea = selectedArea === 'All' || barrister.practiceAreas.includes(selectedArea)
     const matchesAvailability = selectedAvailability === 'All' || barrister.availability === selectedAvailability
@@ -25,6 +70,7 @@ export default function BarristersPage() {
     return matchesArea && matchesAvailability && matchesSearch
   })
 
+  // Sort barristers
   const sortedBarristers = [...filteredBarristers].sort((a, b) => {
     if (sortBy === 'name') {
       return a.name.localeCompare(b.name)
@@ -38,20 +84,23 @@ export default function BarristersPage() {
     return 0
   })
 
-  const availabilityLabels = {
-    accepting: 'Accepting New Cases',
-    limited: 'Limited Availability',
-    full: 'Not Accepting Cases',
-  }
-
-  const sortOptions = [
-    { value: 'seniority', label: 'Seniority (Most Senior First)' },
-    { value: 'seniority-desc', label: 'Seniority (Most Junior First)' },
-    { value: 'name', label: 'Alphabetical (A-Z)' },
-    { value: 'rating', label: 'Highest Rated First' },
-  ]
-
   const hasActiveFilters = selectedArea !== 'All' || selectedAvailability !== 'All' || searchTerm
+
+  if (loading) {
+    return (
+      <main className="w-full overflow-x-hidden">
+        <Header />
+        <section className="section-padding bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center py-12">
+              <p className="text-[#888]">Loading barristers...</p>
+            </div>
+          </div>
+        </section>
+        <Footer />
+      </main>
+    )
+  }
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -59,6 +108,7 @@ export default function BarristersPage() {
 
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Page Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#0a1628] tracking-tight">
               Our <span className="text-[#c9a84c]">Barristers</span>
@@ -68,6 +118,7 @@ export default function BarristersPage() {
             </p>
           </div>
 
+          {/* Stats Bar */}
           <div className="bg-[#faf8f5] rounded-xl p-6 mb-8 flex flex-wrap justify-between items-center border border-[#e8e0d4]">
             <div className="flex flex-wrap items-center gap-6">
               <div>
@@ -88,6 +139,7 @@ export default function BarristersPage() {
             </div>
           </div>
 
+          {/* Filters */}
           <div className="bg-[#faf8f5] rounded-xl p-6 mb-8 border border-[#e8e0d4]">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="lg:col-span-4">
@@ -182,42 +234,16 @@ export default function BarristersPage() {
             )}
           </div>
 
+          {/* Barristers Grid */}
           {sortedBarristers.length > 0 ? (
-            <div className="space-y-12">
-              {groupedBarristers.map((group) => {
-                const filteredMembers = group.members.filter(m => 
-                  sortedBarristers.some(s => s.id === m.id)
-                )
-                if (filteredMembers.length === 0) return null
-
-                return (
-                  <div key={group.level}>
-                    <div className="flex items-center gap-4 mb-6">
-                      <h2 className="text-2xl font-bold text-[#0a1628]">
-                        {group.label}
-                      </h2>
-                      <div className="flex-1 h-px bg-[#e8e0d4]"></div>
-                      <span className="text-sm text-[#888] font-medium">
-                        {filteredMembers.length} {filteredMembers.length === 1 ? 'member' : 'members'}
-                      </span>
-                    </div>
-
-                    <div className={`grid gap-6 ${
-                      group.level === 'head' 
-                        ? 'grid-cols-1 md:grid-cols-1 max-w-md mx-auto' 
-                        : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                    }`}>
-                      {filteredMembers.map((barrister) => (
-                        <BarristerCard
-                          key={barrister.id}
-                          barrister={barrister}
-                          onQuickView={setSelectedBarrister}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )
-              })}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sortedBarristers.map((barrister) => (
+                <BarristerCard
+                  key={barrister.id}
+                  barrister={barrister}
+                  onQuickView={setSelectedBarrister}
+                />
+              ))}
             </div>
           ) : (
             <div className="text-center py-12">

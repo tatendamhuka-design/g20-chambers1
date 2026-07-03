@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Team() {
   const [barristers, setBarristers] = useState([])
@@ -13,7 +13,12 @@ export default function Team() {
       fetch('/api/admin/barristers?limit=100').then(res => res.json()),
       fetch('/api/admin/staff?limit=100').then(res => res.json())
     ]).then(([barristersData, staffData]) => {
-      setBarristers(barristersData.barristers || [])
+      // Parse practiceAreas for each barrister
+      const parsedBarristers = (barristersData.barristers || []).map(barrister => ({
+        ...barrister,
+        practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
+      }))
+      setBarristers(parsedBarristers)
       setStaff(staffData.staff || [])
       setLoading(false)
     }).catch(() => setLoading(false))
@@ -120,7 +125,7 @@ function TeamCard({ member, type }) {
       </p>
       <p className="text-[#555] text-sm mt-2 leading-relaxed">
         {isBarrister ? (
-          member.practiceAreas ? JSON.parse(member.practiceAreas || '[]').slice(0, 2).join(', ') : ''
+          member.practiceAreas?.slice(0, 2).join(', ')
         ) : (
           member.department || member.bio
         )}
