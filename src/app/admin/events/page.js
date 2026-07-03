@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plus, Search, Edit, Trash2, ChevronLeft, ChevronRight, Calendar, MapPin, Clock } from 'lucide-react'
-import { ArrowLeft, Save, Calendar } from 'lucide-react'
 
 export default function AdminEvents() {
   const [events, setEvents] = useState([])
