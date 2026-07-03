@@ -1,7 +1,6 @@
 'use client'
 
-import { SessionProvider } from 'next-auth/react'
-import { useSession } from 'next-auth/react'
+import { SessionProvider, useSession } from 'next-auth/react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect } from 'react'
@@ -20,27 +19,29 @@ const navigation = [
   { name: 'Barristers', href: '/admin/barristers', icon: Users },
   { name: 'Staff', href: '/admin/staff', icon: UsersRound },
   { name: 'News', href: '/admin/news', icon: Newspaper },
-  { name: 'Events', href: '/admin/events', icon: Calendar }, // ← Add this
+  { name: 'Events', href: '/admin/events', icon: Calendar },
   { name: 'Subscribers', href: '/admin/subscribers', icon: UsersRound },
   { name: 'Newsletters', href: '/admin/newsletters', icon: Mail },
 ]
+
 function AdminLayoutContent({ children }) {
   const { data: session, status } = useSession()
   const router = useRouter()
   const pathname = usePathname()
 
+  // Check if we're on the login page
+  const isLoginPage = pathname === '/admin/login'
+
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    // Only redirect if not on login page and not authenticated
+    if (!isLoginPage && status === 'unauthenticated') {
       router.push('/admin/login')
     }
-  }, [status, router])
+  }, [status, router, isLoginPage])
 
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a1628]">
-        <div className="text-white">Loading...</div>
-      </div>
-    )
+  // If on login page or loading, just show children
+  if (isLoginPage || status === 'loading') {
+    return <>{children}</>
   }
 
   if (!session) {
@@ -108,7 +109,6 @@ function AdminLayoutContent({ children }) {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="ml-64 flex-1 p-8">
         <div className="max-w-7xl mx-auto">
           {children}
