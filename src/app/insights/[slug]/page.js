@@ -3,39 +3,69 @@ import Link from 'next/link'
 import { Calendar, User, ArrowLeft, ChevronRight } from 'lucide-react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
+import { PrismaClient } from '@prisma/client'
 
-// This would normally come from the database
-const newsArticles = [
-  {
-    id: 1,
-    slug: 'landmark-human-rights-ruling-limpopo',
-    title: 'Landmark Human Rights Ruling in Limpopo',
-    category: 'Case Update',
-    content: `<p>G20 Chambers secured a landmark victory in the High Court, reinforcing constitutional rights and setting a precedent for due process in Limpopo.</p>
-    <p>The case involved a challenge to unlawful detention, with our barristers successfully arguing that the detention violated the constitutional rights of the client.</p>
-    <p>This ruling has significant implications for future cases and reinforces the importance of protecting fundamental rights in the justice system.</p>`,
-    publishedDate: '2026-06-15',
-    author: { name: 'Barrister Mathabatha' },
-    featuredImage: null,
-  },
-  // Add more articles as needed
-]
+const prisma = new PrismaClient()
 
-function getArticleBySlug(slug) {
-  return newsArticles.find(article => article.slug === slug)
-}
-
-export function generateStaticParams() {
-  return newsArticles.map((article) => ({
-    slug: article.slug,
+// Generate static paths
+export async function generateStaticParams() {
+  const news = await prisma.news.findMany({
+    select: { slug: true }
+  })
+  return news.map((item) => ({
+    slug: item.slug,
   }))
 }
 
-export default function SingleNewsPage({ params }) {
-  const article = getArticleBySlug(params.slug)
+// Get news article by slug
+async function getNewsBySlug(slug) {
+  const news = await prisma.news.findUnique({
+    where: { slug },
+    include: { author: true }
+  })
+  return news
+}
+
+export async function generateMetadata({ params }) {
+  const article = await getNewsBySlug(params.slug)
+  
+  if (!article) {
+    return {
+      title: 'Article Not Found',
+    }
+  }
+
+  return {
+    title: article.seoMetaTitle || `${article.title} | G20 Chambers`,
+    description: article.seoMetaDesc || article.excerpt || `Read about ${article.title} from G20 Chambers.`,
+    openGraph: {
+      title: article.seoMetaTitle || article.title,
+      description: article.seoMetaDesc || article.excerpt,
+      url: `https://g20chambers.co.za/insights/${article.slug}`,
+      type: 'article',
+      publishedTime: article.publishedDate,
+      authors: [article.author?.name || 'G20 Chambers'],
+    },
+  }
+}
+
+export default async function SingleNewsPage({ params }) {
+  const article = await getNewsBySlug(params.slug)
 
   if (!article) {
     notFound()
+  }
+
+  const getCategoryBadge = (category) => {
+    const config = {
+      'case-update': { label: 'Case Update', className: 'bg-blue-100 text-blue-700 border-blue-200' },
+      'chambers-news': { label: 'Chambers News', className: 'bg-green-100 text-green-700 border-green-200' },
+      'legal-analysis': { label: 'Legal Analysis', className: 'bg-purple-100 text-purple-700 border-purple-200' },
+      'event': { label: 'Event', className: 'bg-amber-100 text-amber-700 border-amber-200' },
+      'press-release': { label: 'Press Release', className: 'bg-red-100 text-red-700 border-red-200' }
+    }
+    const { label, className } = config[category] || { label: category, className: 'bg-gray-100 text-gray-700 border-gray-200' }
+    return <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${className}`}>{label}</span>
   }
 
   return (
@@ -75,9 +105,7 @@ export default function SingleNewsPage({ params }) {
             <ArrowLeft className="w-4 h-4" /> Back to all news
           </Link>
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="bg-[#c9a84c] text-[#0a1628] text-xs font-bold px-3 py-1 rounded-full">
-              {article.category}
-            </span>
+            {getCategoryBadge(article.category)}
           </div>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight">
             {article.title}
@@ -99,13 +127,15 @@ export default function SingleNewsPage({ params }) {
       {/* Content */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {article.featuredImage && (
+            <div className="mb-8 rounded-xl overflow-hidden">
+              <img src={article.featuredImage} alt={article.title} className="w-full h-auto" />
+            </div>
+          )}
           <div className="prose prose-lg max-w-none">
-            {article.featuredImage && (
-              <div className="mb-8 rounded-xl overflow-hidden">
-                <img src={article.featuredImage} alt={article.title} className="w-full h-auto" />
-              </div>
-            )}
-            <div dangerouslySetInnerHTML={{ __html: article.content }} />
+            <div className="text-[#444] leading-relaxed whitespace-pre-line">
+              {article.content}
+            </div>
           </div>
 
           <div className="mt-12 pt-8 border-t border-[#e8e0d4]">

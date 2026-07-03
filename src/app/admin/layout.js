@@ -17,12 +17,12 @@ import {
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Barristers', href: '/admin/barristers', icon: Users },
-  { name: 'Staff', href: '/admin/staff', icon: UsersRound },  // ← Add this
+  { name: 'Staff', href: '/admin/staff', icon: UsersRound },
   { name: 'News', href: '/admin/news', icon: Newspaper },
+  { name: 'Events', href: '/admin/events', icon: Calendar }, // ← Add this
   { name: 'Subscribers', href: '/admin/subscribers', icon: UsersRound },
   { name: 'Newsletters', href: '/admin/newsletters', icon: Mail },
 ]
-
 function AdminLayoutContent({ children }) {
   const { data: session, status } = useSession()
   const router = useRouter()
