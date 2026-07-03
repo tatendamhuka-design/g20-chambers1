@@ -1,12 +1,54 @@
+import Link from 'next/link'
+
 const practiceAreas = [
-  { icon: '⚖️', name: 'Criminal Law', desc: 'Expert defence and prosecution representation in all criminal matters.' },
-  { icon: '🏠', name: 'Family Law', desc: 'Children matters, divorce, and family disputes handled with care.' },
-  { icon: '📜', name: 'Human Rights', desc: 'Defending fundamental rights and challenging injustice.' },
-  { icon: '🏛️', name: 'Civil Litigation', desc: 'Commercial disputes, personal injury, and property matters.' },
-  { icon: '🛂', name: 'Immigration Law', desc: 'Asylum, deportation, and visa appeals with expert guidance.' },
-  { icon: '🏢', name: 'Employment Law', desc: 'Workplace disputes, unfair dismissal, and discrimination claims.' },
-  { icon: '🌍', name: 'Public & Administrative', desc: 'Judicial review, regulatory matters, and public interest cases.' },
-  { icon: '📋', name: 'Property & Land Law', desc: 'Property disputes, land claims, and conveyancing advice.' },
+  { 
+    icon: '⚖️', 
+    name: 'Criminal Law', 
+    desc: 'Expert defence and prosecution representation in all criminal matters.',
+    slug: 'criminal-law'
+  },
+  { 
+    icon: '🏠', 
+    name: 'Family Law', 
+    desc: 'Children matters, divorce, and family disputes handled with care.',
+    slug: 'family-law'
+  },
+  { 
+    icon: '📜', 
+    name: 'Human Rights', 
+    desc: 'Defending fundamental rights and challenging injustice.',
+    slug: 'human-rights'
+  },
+  { 
+    icon: '🏛️', 
+    name: 'Civil Litigation', 
+    desc: 'Commercial disputes, personal injury, and property matters.',
+    slug: 'civil-litigation'
+  },
+  { 
+    icon: '🛂', 
+    name: 'Immigration Law', 
+    desc: 'Asylum, deportation, and visa appeals with expert guidance.',
+    slug: 'immigration-law'
+  },
+  { 
+    icon: '🏢', 
+    name: 'Employment Law', 
+    desc: 'Workplace disputes, unfair dismissal, and discrimination claims.',
+    slug: 'employment-law'
+  },
+  { 
+    icon: '🌍', 
+    name: 'Public & Administrative', 
+    desc: 'Judicial review, regulatory matters, and public interest cases.',
+    slug: 'public-administrative-law'
+  },
+  { 
+    icon: '📋', 
+    name: 'Property & Land Law', 
+    desc: 'Property disputes, land claims, and conveyancing advice.',
+    slug: 'property-land-law'
+  },
 ]
 
 export default function PracticeAreas() {
@@ -34,11 +76,24 @@ export default function PracticeAreas() {
                 {area.name}
               </h3>
               <p className="text-[#555] text-sm leading-relaxed mb-3">{area.desc}</p>
-              <a href="#" className="text-[#c9a84c] font-semibold text-sm hover:underline">
+              <Link 
+                href={`/areas/${area.slug}`}
+                className="text-[#c9a84c] font-semibold text-sm hover:underline inline-block"
+              >
                 Learn more →
-              </a>
+              </Link>
             </div>
           ))}
+        </div>
+
+        {/* View All Areas Button */}
+        <div className="text-center mt-10">
+          <Link
+            href="/areas"
+            className="inline-block bg-[#c9a84c] text-[#0a1628] px-8 py-3 font-bold rounded-lg hover:bg-[#e0c66e] transition-all hover:scale-105"
+          >
+            View All Practice Areas →
+          </Link>
         </div>
       </div>
     </section>

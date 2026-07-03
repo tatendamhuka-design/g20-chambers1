@@ -2,6 +2,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
 import PracticeAreas from './components/PracticeAreas'
+import LocationsWeServe from './components/LocationsWeServe'
 import NotableCases from './components/NotableCases'
 import Team from './components/Team'
 import Testimonials from './components/Testimonials'
@@ -17,6 +18,7 @@ export default function Home() {
       <Hero />
       <About />
       <PracticeAreas />
+       <LocationsWeServe />
       <NotableCases />
       <Team />
       <Testimonials />

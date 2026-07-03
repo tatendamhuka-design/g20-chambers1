@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { Scale, Users, Award, ChevronRight, Calendar, MapPin, Building } from 'lucide-react'
+import Link from 'next/link'
 
 export default function About() {
   const [imgError, setImgError] = useState(false)
@@ -63,16 +64,16 @@ export default function About() {
               </div>
             </div>
             
-            <a 
+            <Link 
               href="/about" 
               className="inline-flex items-center gap-2 text-[#c9a84c] font-semibold hover:gap-3 transition-all group mt-4"
             >
               Learn more about us
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
 
-          {/* Image Column - RIGHT */}
+          {/* Image Column - RIGHT with Overlay Badges */}
           <div className="relative order-2">
             <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
               {!imgError ? (
@@ -85,7 +86,30 @@ export default function About() {
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     onError={() => setImgError(true)}
                   />
+                  
+                  {/* Gold Border Overlay */}
                   <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
+                  
+                  {/* EST. 2021 BADGE - Front of Image */}
+                  <div className="absolute -top-3 -right-3 md:-top-4 md:-right-4 z-20">
+                    <div className="bg-[#c9a84c] text-[#0a1628] px-4 py-2.5 md:px-6 md:py-3 rounded-xl shadow-2xl border-2 border-white/30 flex items-center gap-2">
+                      <Calendar className="w-4 h-4 md:w-5 md:h-5" />
+                      <span className="text-sm md:text-base font-extrabold">Est. 2021</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Badge - "A group of Advocates" */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-[#0a1628]/80 backdrop-blur-sm text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full border border-[#c9a84c]/30 flex items-center gap-2 whitespace-nowrap">
+                    <Scale className="w-4 h-4 text-[#c9a84c]" />
+                    <span className="text-xs md:text-sm font-medium">A group of Advocates</span>
+                  </div>
+
+                  {/* Top Left - G20 Chambers Tag */}
+                  <div className="absolute top-4 left-4 z-20 bg-[#0a1628]/70 backdrop-blur-sm text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-[#c9a84c]/20">
+                    <span className="text-xs md:text-sm font-bold">
+                      G20 <span className="text-[#c9a84c]">Chambers</span>
+                    </span>
+                  </div>
                 </>
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
@@ -96,11 +120,6 @@ export default function About() {
                   </div>
                 </div>
               )}
-              
-              <div className="absolute -bottom-4 -right-4 bg-[#c9a84c] text-[#0a1628] px-5 py-2.5 rounded-xl shadow-2xl text-sm font-bold flex items-center gap-2 z-20 border-2 border-white/30">
-                <Award className="w-4 h-4" />
-                Est. 2021
-              </div>
             </div>
           </div>
         </div>

@@ -52,3 +52,28 @@
 .fade-in {
   animation: fadeInUp 0.6s ease-out forwards;
 }
+
+/* Continuous Left-to-Right Scroll Animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 30s linear infinite;
+  width: fit-content;
+}
+
+/* Pause animation on hover */
+.animate-scroll-left:hover {
+  animation-play-state: paused;
+}
+
+/* Optional: Add a subtle glow effect */
+.animate-scroll-left .text-white {
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+}
