@@ -12,7 +12,6 @@ import {
   XCircle,
   LayoutDashboard,
   TrendingUp,
-  Calendar,
   Activity
 } from 'lucide-react'
 

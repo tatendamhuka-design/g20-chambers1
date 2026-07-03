@@ -11,6 +11,7 @@ import {
   Newspaper, 
   Mail, 
   UsersRound,
+  Calendar,
   LogOut
 } from 'lucide-react'
 
