@@ -53,7 +53,7 @@
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* Continuous Left-to-Right Scroll Animation */
+/* ===== SCROLLING LOGOS ANIMATION ===== */
 @keyframes scroll-left {
   0% {
     transform: translateX(0);
@@ -64,7 +64,7 @@
 }
 
 .animate-scroll-left {
-  animation: scroll-left 30s linear infinite;
+  animation: scroll-left 25s linear infinite;
   width: fit-content;
 }
 
@@ -76,4 +76,40 @@
 /* Optional: Add a subtle glow effect */
 .animate-scroll-left .text-white {
   text-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+}
+
+/* ===== FORCE HEADER STICKY/FIXED ===== */
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 999 !important;
+  width: 100% !important;
+  background: #0a1628;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure header stays on top of everything */
+header * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove any overflow hidden that might break sticky */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: visible !important;
+}
+
+/* Ensure main content doesn't hide behind header */
+main {
+  padding-top: 0;
+}
+
+/* Fix for mobile menu overlay */
+header .lg\\:hidden {
+  z-index: 1000;
 }

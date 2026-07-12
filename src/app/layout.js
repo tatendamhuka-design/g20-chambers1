@@ -96,7 +96,10 @@ export default function RootLayout({ children }) {
         className={`${merriweatherSans.variable} font-merriweather-sans antialiased`}
         suppressHydrationWarning
       >
-        {children}
+        {/* Wrapper with padding-top for fixed header */}
+        <div className="pt-[72px] md:pt-[84px]">
+          {children}
+        </div>
         <WhatsAppButton phoneNumber="+27823413333" />
       </body>
     </html>
