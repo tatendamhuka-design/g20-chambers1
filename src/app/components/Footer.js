@@ -161,11 +161,11 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* ===== MAIN FOOTER CONTENT - DARK ===== */}
+        {/* ===== MAIN FOOTER CONTENT - MOBILE OPTIMIZED ===== */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          {/* Brand Column */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex flex-col">
+          {/* Brand Column - Centered on Mobile */}
+          <div className="md:col-span-1 text-center md:text-left">
+            <Link href="/" className="flex flex-col items-center md:items-start">
               <span className="text-xl font-extrabold text-white tracking-wide">
                 G20 <span className="text-[#c9a84c]">Chambers</span>
               </span>
@@ -173,7 +173,7 @@ export default function Footer() {
                 The home of premier barristers
               </span>
             </Link>
-            <p className="text-sm text-[#889] mt-3 max-w-xs">
+            <p className="text-sm text-[#889] mt-3 max-w-xs mx-auto md:mx-0">
               Providing top-notch advocate services to clients in Limpopo.
             </p>
             <div className="mt-3 text-sm text-[#889] space-y-1">
@@ -184,86 +184,96 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links - Left Column */}
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
-            <nav className="flex flex-col space-y-2">
-              {quickLinksLeft.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {/* Quick Links - Side by Side on Mobile */}
+          <div className="md:col-span-2">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Quick Links - Left Column */}
+              <div>
+                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4 text-center md:text-left">Quick Links</h4>
+                <nav className="flex flex-col space-y-2 items-center md:items-start">
+                  {quickLinksLeft.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
 
-          {/* Quick Links - Right Column */}
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">&nbsp;</h4>
-            <nav className="flex flex-col space-y-2">
-              {quickLinksRight.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Legal Links Column */}
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Legal Links</h4>
-            <nav className="flex flex-col space-y-2">
-              {legalNav.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors flex items-center gap-1"
-                >
-                  {item.name}
-                  <svg className="w-3 h-3 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Hours & Credit Column */}
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Office Hours</h4>
-            <div className="text-sm text-[#889] space-y-1">
-              <p>Mon - Fri: 8:00 AM - 5:00 PM</p>
-              <p>Sat: By appointment</p>
-              <p>Sun: Closed</p>
+              {/* Quick Links - Right Column */}
+              <div>
+                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4 text-center md:text-left">&nbsp;</h4>
+                <nav className="flex flex-col space-y-2 items-center md:items-start">
+                  {quickLinksRight.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
             </div>
-            
-            <div className="mt-6 pt-6 border-t border-[#1a2a3a]">
-              <p className="text-xs text-[#667]">
-                Designed by{' '}
-                <a 
-                  href="https://inkspiredigitaldesigns.co.za" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-[#c9a84c] hover:underline font-medium"
-                >
-                  Inkspire Digital Designs
-                </a>
-              </p>
+          </div>
+
+          {/* Legal Links & Office Hours - Side by Side on Mobile */}
+          <div className="md:col-span-2">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Legal Links */}
+              <div>
+                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4 text-center md:text-left">Legal Links</h4>
+                <nav className="flex flex-col space-y-2 items-center md:items-start">
+                  {legalNav.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-[#bbb] hover:text-[#c9a84c] transition-colors flex items-center gap-1"
+                    >
+                      {item.name}
+                      <svg className="w-3 h-3 text-[#888]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Office Hours */}
+              <div>
+                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4 text-center md:text-left">Office Hours</h4>
+                <div className="text-sm text-[#889] space-y-1 text-center md:text-left">
+                  <p>Mon - Fri: 8:00 AM - 5:00 PM</p>
+                  <p>Sat: By appointment</p>
+                  <p>Sun: Closed</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#1a2a3a] text-center text-sm text-[#667]">
-          &copy; 2026 G20 Chambers. All rights reserved.
+        {/* Designed By - Centered */}
+        <div className="mt-8 pt-6 border-t border-[#1a2a3a] text-center">
+          <p className="text-xs text-[#667]">
+            Designed by{' '}
+            <a 
+              href="https://inkspiredigitaldesigns.co.za" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[#c9a84c] hover:underline font-medium"
+            >
+              Inkspire Digital Designs
+            </a>
+          </p>
+          <p className="text-xs text-[#667] mt-1">
+            &copy; 2026 G20 Chambers. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
