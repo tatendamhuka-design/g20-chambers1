@@ -1,16 +1,74 @@
+# ============================================
+# G20 Chambers - Robots.txt
+# ============================================
+
+# Allow all crawlers
 User-agent: *
 Allow: /
 
 # Sitemap location
 Sitemap: https://g20-chambers1.vercel.app/sitemap.xml
 
-# Disallow admin pages
+# ============================================
+# DISALLOW - Admin & System Pages
+# ============================================
+
+# Admin panel - keep out
 User-agent: *
 Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/barristers/
+Disallow: /admin/staff/
+Disallow: /admin/news/
+Disallow: /admin/events/
+Disallow: /admin/subscribers/
+Disallow: /admin/newsletters/
+
+# API routes - keep out
+User-agent: *
 Disallow: /api/
+
+# Next.js system files
+User-agent: *
 Disallow: /_next/
 Disallow: /_vercel/
 
-# Allow all other pages
+# Static assets that shouldn't be indexed
 User-agent: *
-Allow: /
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+
+# ============================================
+# CRAWL DELAY - Be respectful
+# ============================================
+
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: Slurp
+Crawl-delay: 1
+
+# ============================================
+# ALLOW - Important content
+# ============================================
+
+# Ensure all important content is crawlable
+User-agent: *
+Allow: /about
+Allow: /barristers
+Allow: /barristers/*
+Allow: /areas
+Allow: /areas/*
+Allow: /insights
+Allow: /insights/*
+Allow: /events
+Allow: /events/*
+Allow: /contact
+Allow: /public-access
+Allow: /join
+Allow: /join/*
+Allow: /clerks

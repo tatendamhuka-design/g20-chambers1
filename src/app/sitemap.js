@@ -20,6 +20,18 @@ export default async function sitemap() {
     select: { slug: true, updatedAt: true }
   })
 
+  // Practice areas (static slugs)
+  const practiceAreaSlugs = [
+    'criminal-law',
+    'family-law',
+    'human-rights',
+    'civil-litigation',
+    'immigration-law',
+    'employment-law',
+    'public-administrative-law',
+    'property-land-law'
+  ]
+
   // Static pages
   const staticPages = [
     { url: '/', priority: 1.0, changeFrequency: 'daily' },
@@ -32,54 +44,57 @@ export default async function sitemap() {
     { url: '/events', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/join', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/clerks', priority: 0.6, changeFrequency: 'monthly' },
+    // Join subpages
+    { url: '/join/pupillage', priority: 0.6, changeFrequency: 'monthly' },
+    { url: '/join/tenancy', priority: 0.6, changeFrequency: 'monthly' },
+    { url: '/join/clerks-staff', priority: 0.6, changeFrequency: 'monthly' },
   ]
 
-  // Dynamic pages
-  const barristerPages = barristers.map((barrister) => ({
-    url: `/barristers/${barrister.slug}`,
-    lastModified: barrister.updatedAt,
+  // Practice area pages
+  const practiceAreaPages = practiceAreaSlugs.map((slug) => ({
+    url: `/areas/${slug}`,
+    lastModified: new Date(),
     priority: 0.8,
     changeFrequency: 'monthly',
   }))
 
+  // Barrister profile pages
+  const barristerPages = barristers.map((barrister) => ({
+    url: `/barristers/${barrister.slug}`,
+    lastModified: barrister.updatedAt || new Date(),
+    priority: 0.8,
+    changeFrequency: 'monthly',
+  }))
+
+  // News/insight pages
   const newsPages = news.map((article) => ({
     url: `/insights/${article.slug}`,
-    lastModified: article.updatedAt,
+    lastModified: article.updatedAt || new Date(),
     priority: 0.6,
     changeFrequency: 'monthly',
   }))
 
+  // Event pages
   const eventPages = events.map((event) => ({
     url: `/events/${event.slug}`,
-    lastModified: event.updatedAt,
+    lastModified: event.updatedAt || new Date(),
     priority: 0.6,
     changeFrequency: 'monthly',
   }))
 
-  return [
-    ...staticPages.map((page) => ({
-      url: `${baseUrl}${page.url}`,
-      lastModified: new Date(),
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-    })),
-    ...barristerPages.map((page) => ({
-      url: `${baseUrl}${page.url}`,
-      lastModified: page.lastModified || new Date(),
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-    })),
-    ...newsPages.map((page) => ({
-      url: `${baseUrl}${page.url}`,
-      lastModified: page.lastModified || new Date(),
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-    })),
-    ...eventPages.map((page) => ({
-      url: `${baseUrl}${page.url}`,
-      lastModified: page.lastModified || new Date(),
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-    })),
+  // Combine all pages
+  const allPages = [
+    ...staticPages,
+    ...practiceAreaPages,
+    ...barristerPages,
+    ...newsPages,
+    ...eventPages,
   ]
+
+  return allPages.map((page) => ({
+    url: `${baseUrl}${page.url}`,
+    lastModified: page.lastModified || new Date(),
+    changeFrequency: page.changeFrequency || 'monthly',
+    priority: page.priority || 0.5,
+  }))
 }
