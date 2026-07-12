@@ -1,14 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Scale, Home, FileText, Landmark, Globe, Briefcase, Building, Users, 
-  ChevronRight, Award, Calendar, Star 
+  ChevronRight, Award, Calendar, Star, TrendingUp 
 } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 
+// Icon mapping
+const iconMap = {
+  'Scale': Scale,
+  'Home': Home,
+  'FileText': FileText,
+  'Landmark': Landmark,
+  'Globe': Globe,
+  'Briefcase': Briefcase,
+  'Building': Building,
+  'Users': Users,
+}
+
+// Practice areas with their slugs
 const practiceAreas = [
   {
     slug: 'criminal-law',
@@ -17,7 +30,6 @@ const practiceAreas = [
     description: 'Expert defence and prosecution representation in all criminal matters, from bail applications to complex trials and appeals.',
     stats: '50+ Cases Won • 15+ Years Experience',
     cases: '50+',
-    barristers: 3,
     color: 'from-red-500/10 to-red-500/5',
     borderColor: 'border-red-200',
     iconBg: 'bg-red-50 text-red-600',
@@ -30,7 +42,6 @@ const practiceAreas = [
     description: 'Compassionate and strategic representation in divorce, child custody, maintenance, domestic violence, and family disputes.',
     stats: '100+ Families Helped • 12+ Years Experience',
     cases: '100+',
-    barristers: 2,
     color: 'from-pink-500/10 to-pink-500/5',
     borderColor: 'border-pink-200',
     iconBg: 'bg-pink-50 text-pink-600',
@@ -43,7 +54,6 @@ const practiceAreas = [
     description: 'Defending fundamental rights and challenging injustice through constitutional litigation and human rights advocacy.',
     stats: '30+ Landmark Cases • 10+ Years Experience',
     cases: '30+',
-    barristers: 2,
     color: 'from-blue-500/10 to-blue-500/5',
     borderColor: 'border-blue-200',
     iconBg: 'bg-blue-50 text-blue-600',
@@ -56,7 +66,6 @@ const practiceAreas = [
     description: 'Commercial disputes, personal injury claims, property disputes, and civil litigation in the High Court and Magistrate\'s Court.',
     stats: '200+ Cases Resolved • 15+ Years Experience',
     cases: '200+',
-    barristers: 3,
     color: 'from-indigo-500/10 to-indigo-500/5',
     borderColor: 'border-indigo-200',
     iconBg: 'bg-indigo-50 text-indigo-600',
@@ -69,7 +78,6 @@ const practiceAreas = [
     description: 'Expert guidance on asylum applications, deportation appeals, visa applications, and citizenship matters.',
     stats: '150+ Clients Helped • 8+ Years Experience',
     cases: '150+',
-    barristers: 1,
     color: 'from-cyan-500/10 to-cyan-500/5',
     borderColor: 'border-cyan-200',
     iconBg: 'bg-cyan-50 text-cyan-600',
@@ -82,7 +90,6 @@ const practiceAreas = [
     description: 'Workplace disputes, unfair dismissal claims, discrimination matters, and employment contract advice.',
     stats: '80+ Cases Won • 10+ Years Experience',
     cases: '80+',
-    barristers: 1,
     color: 'from-amber-500/10 to-amber-500/5',
     borderColor: 'border-amber-200',
     iconBg: 'bg-amber-50 text-amber-600',
@@ -95,7 +102,6 @@ const practiceAreas = [
     description: 'Judicial review, regulatory matters, public interest cases, and administrative law challenges.',
     stats: '40+ Judicial Reviews • 8+ Years Experience',
     cases: '40+',
-    barristers: 2,
     color: 'from-purple-500/10 to-purple-500/5',
     borderColor: 'border-purple-200',
     iconBg: 'bg-purple-50 text-purple-600',
@@ -108,7 +114,6 @@ const practiceAreas = [
     description: 'Property disputes, land claims, conveyancing advice, and property litigation.',
     stats: '60+ Property Cases • 10+ Years Experience',
     cases: '60+',
-    barristers: 1,
     color: 'from-emerald-500/10 to-emerald-500/5',
     borderColor: 'border-emerald-200',
     iconBg: 'bg-emerald-50 text-emerald-600',
@@ -139,11 +144,51 @@ function AreaImage({ src, alt, className, iconBg, icon: Icon }) {
 }
 
 export default function AreasPage() {
+  const [barristerCounts, setBarristerCounts] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [totalBarristers, setTotalBarristers] = useState(0)
+
+  // Fetch barristers from API and count by practice area
+  useEffect(() => {
+    const fetchBarristers = async () => {
+      try {
+        const res = await fetch('/api/admin/barristers?limit=1000')
+        const data = await res.json()
+        const barristers = data.barristers || []
+        
+        // Count barristers per practice area
+        const counts = {}
+        barristers.forEach(barrister => {
+          const areas = barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
+          areas.forEach(area => {
+            // Find matching practice area slug
+            const match = practiceAreas.find(p => p.name === area)
+            if (match) {
+              counts[match.slug] = (counts[match.slug] || 0) + 1
+            }
+          })
+        })
+        
+        setBarristerCounts(counts)
+        setTotalBarristers(barristers.length)
+      } catch (error) {
+        console.error('Error fetching barristers:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBarristers()
+  }, [])
+
+  // Calculate total barristers across all areas
+  const totalUniqueBarristers = Object.values(barristerCounts).reduce((sum, count) => sum + count, 0)
+
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero Section with Dynamic Stats */}
       <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-24 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
@@ -163,11 +208,11 @@ export default function AreasPage() {
             <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span>8 Practice Areas</span>
+                <span>{practiceAreas.length} Practice Areas</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span>14 Barristers</span>
+                <span>{loading ? '...' : totalBarristers} Barristers</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
@@ -185,6 +230,8 @@ export default function AreasPage() {
           <div className="space-y-6">
             {practiceAreas.map((area, index) => {
               const Icon = area.icon
+              const barristerCount = barristerCounts[area.slug] || 0
+              
               return (
                 <Link
                   key={index}
@@ -213,7 +260,7 @@ export default function AreasPage() {
                             {area.name}
                           </h3>
                           <span className="text-xs font-medium text-[#888] bg-[#faf8f5] px-2.5 py-0.5 rounded-full border border-[#e8e0d4]">
-                            {area.barristers} Barristers
+                            {loading ? '...' : `${barristerCount} Barristers`}
                           </span>
                         </div>
                         <p className="text-[#555] text-sm md:text-base leading-relaxed max-w-2xl">

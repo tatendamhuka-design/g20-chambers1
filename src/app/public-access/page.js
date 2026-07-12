@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Phone, Mail, MessageCircle, Clock, MapPin, Award, 
   CheckCircle, Users, Briefcase, Star, ArrowRight,
   ChevronDown, Shield, Clock as ClockIcon, 
-  DollarSign, MessageSquare, Zap, BookOpen
+  DollarSign, MessageSquare, Zap, BookOpen, Scale
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -78,62 +78,33 @@ const faqs = [
   },
 ]
 
-// Image component with error handling
-function HeroImage({ src, alt }) {
-  const [error, setError] = useState(false)
-
-  if (error || !src) {
-    return (
-      <div className="relative h-80 md:h-96 w-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
-        <div className="text-center text-white p-8">
-          <Award className="w-20 h-20 text-[#c9a84c] mx-auto mb-4" />
-          <p className="text-xl md:text-2xl font-semibold italic leading-relaxed">
-            "We believe everyone deserves access to expert legal representation, 
-            regardless of their situation."
-          </p>
-          <p className="text-[#c9a84c] font-semibold mt-4">
-            — Barrister Mathabatha, Head of Chambers
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="relative h-80 md:h-96 w-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a]">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover opacity-20"
-        onError={() => setError(true)}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/50 to-transparent"></div>
-      <div className="absolute inset-0 flex items-center justify-center text-center text-white p-8">
-        <div className="max-w-2xl">
-          <Award className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
-          <p className="text-xl md:text-2xl font-semibold italic leading-relaxed">
-            "We believe everyone deserves access to expert legal representation, 
-            regardless of their situation."
-          </p>
-          <p className="text-[#c9a84c] font-semibold mt-4">
-            — Barrister Mathabatha, Head of Chambers
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function PublicAccessPage() {
-  const [imageError, setImageError] = useState(false)
+  const [barristerCount, setBarristerCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchBarristers = async () => {
+      try {
+        const res = await fetch('/api/admin/barristers?limit=1000')
+        const data = await res.json()
+        const barristers = data.barristers || []
+        setBarristerCount(barristers.length)
+      } catch (error) {
+        console.error('Error fetching barristers:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBarristers()
+  }, [])
 
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* ===== HERO SECTION - TEXT ONLY ===== */}
-      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-20 md:py-28 overflow-hidden">
+      {/* ===== HERO SECTION - NO BUTTONS ===== */}
+      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
         
@@ -155,34 +126,18 @@ export default function PublicAccessPage() {
               and speak directly to your barrister.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#c9a84c] text-[#0a1628] px-8 py-3.5 font-bold rounded-xl hover:bg-[#e0c66e] transition-all hover:scale-105"
-              >
-                Contact Us <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href="tel:+27823413333"
-                className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-3.5 font-semibold rounded-xl border-2 border-white/30 hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all hover:scale-105"
-              >
-                <Phone className="w-4 h-4" />
-                Call: 082 341 3333
-              </a>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm">
+            <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span>100+ Clients Served</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span>14 Barristers</span>
+                <span>{loading ? '...' : barristerCount} Barristers</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
                 <span>8 Practice Areas</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span>100+ Clients Served</span>
               </div>
             </div>
           </div>
@@ -194,10 +149,18 @@ export default function PublicAccessPage() {
       <section className="py-12 md:py-16 bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-            <HeroImage 
-              src="/images/public-access-about.jpg" 
-              alt="Direct Access to Justice - G20 Chambers" 
-            />
+            <div className="relative h-80 md:h-96 w-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] flex items-center justify-center">
+              <div className="text-center text-white p-8">
+                <Scale className="w-20 h-20 text-[#c9a84c] mx-auto mb-4" />
+                <p className="text-xl md:text-2xl font-semibold italic leading-relaxed">
+                  "We believe everyone deserves access to expert legal representation, 
+                  regardless of their situation."
+                </p>
+                <p className="text-[#c9a84c] font-semibold mt-4">
+                  — Barrister Mathabatha, Head of Chambers
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -215,9 +178,6 @@ export default function PublicAccessPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 relative">
-            {/* Connecting Line */}
-            <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-[#c9a84c]/20 -translate-y-1/2"></div>
-            
             {/* Step 1 */}
             <div className="relative z-10 text-center">
               <div className="w-16 h-16 mx-auto rounded-full bg-[#c9a84c] flex items-center justify-center text-2xl font-bold text-[#0a1628] mb-4">

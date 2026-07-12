@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { 
   Scale, Home, FileText, Landmark, Globe, Briefcase, Building, Users,
-  Award, Calendar, Star, ArrowLeft, ChevronDown
+  Award, Calendar, Star, ArrowLeft, ChevronDown, Phone, Mail, MessageCircle
 } from 'lucide-react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
+import PageHero from '@/app/components/PageHero'
 
 // Map icon names to components
 const iconMap = {
@@ -25,11 +26,112 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
   const [imageError, setImageError] = useState(false)
   const Icon = iconMap[areaData.icon] || Scale
 
+  // Check if barristers are available
+  const hasBarristers = barristersInArea && barristersInArea.length > 0
+
+  // Function to format inline links (Limpopo Bar, GCBSA, LPC, DOJ)
+  const formatInlineLinks = (text) => {
+    if (!text) return text
+    
+    // Define legal links with their URLs
+    const legalLinks = [
+      { 
+        name: 'Limpopo Bar', 
+        url: 'https://limpopobar.co.za',
+        pattern: /\bLimpopo Bar\b/g
+      },
+      { 
+        name: 'GCBSA', 
+        url: 'https://gcbsa.co.za',
+        pattern: /\bGCBSA\b/g
+      },
+      { 
+        name: 'General Council of the Bar of South Africa', 
+        url: 'https://gcbsa.co.za',
+        pattern: /\bGeneral Council of the Bar of South Africa\b/g
+      },
+      { 
+        name: 'Legal Practice Council', 
+        url: 'https://lpc.org.za',
+        pattern: /\bLegal Practice Council\b/g
+      },
+      { 
+        name: 'LPC', 
+        url: 'https://lpc.org.za',
+        pattern: /\bLPC\b/g
+      },
+      { 
+        name: 'Department of Justice and Constitutional Development', 
+        url: 'https://justice.gov.za',
+        pattern: /\bDepartment of Justice and Constitutional Development\b/g
+      },
+      { 
+        name: 'DOJ', 
+        url: 'https://justice.gov.za',
+        pattern: /\bDOJ\b/g
+      },
+    ]
+    
+    // Replace each link with a highlighted Link component
+    let result = text
+    legalLinks.forEach(link => {
+      result = result.replace(link.pattern, (match) => {
+        return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="text-[#c9a84c] font-semibold hover:underline">${match}</a>`
+      })
+    })
+    
+    // Return as HTML string
+    return <span dangerouslySetInnerHTML={{ __html: result }} />
+  }
+
+  // Function to format text with paragraphs
+  const formatContent = (text) => {
+    if (!text) return null
+    
+    // Split by double newlines to create paragraphs
+    const paragraphs = text.split('\n\n').filter(p => p.trim())
+    
+    return paragraphs.map((paragraph, index) => {
+      // Check if paragraph contains bullet points
+      if (paragraph.includes('•')) {
+        const lines = paragraph.split('\n').filter(line => line.trim())
+        return (
+          <div key={index} className="mb-4">
+            {lines.map((line, lineIndex) => {
+              if (line.trim().startsWith('•')) {
+                return (
+                  <div key={lineIndex} className="flex items-start gap-2 text-[#444] leading-relaxed mb-1.5">
+                    <span className="text-[#c9a84c] font-bold">•</span>
+                    <span>{formatInlineLinks(line.replace('•', '').trim())}</span>
+                  </div>
+                )
+              } else if (line.trim() && !line.trim().startsWith('•')) {
+                return (
+                  <p key={lineIndex} className="text-[#444] leading-relaxed mb-3">
+                    {formatInlineLinks(line.trim())}
+                  </p>
+                )
+              }
+              return null
+            })}
+          </div>
+        )
+      }
+      
+      // Regular paragraph with inline links
+      return (
+        <p key={index} className="text-[#444] leading-relaxed mb-4">
+          {formatInlineLinks(paragraph.trim())}
+        </p>
+      )
+    })
+  }
+
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* Schema Markup */}
+      {/* ===== SCHEMA MARKUP ===== */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -54,64 +156,41 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             telephone: '+27823413333',
             email: 'cali.mathabatha@gmail.com',
             image: areaData.ogImage,
+            priceRange: '$$',
+            openingHours: 'Mo-Fr 08:00-17:00',
           }),
         }}
       />
 
-      {/* Hero Section with Background Image */}
-      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-20 overflow-hidden">
-        {/* Hero Background Image */}
-        {areaData.heroImage && !imageError && (
-          <div className="absolute inset-0 z-0 opacity-20">
-            <img
-              src={areaData.heroImage}
-              alt={areaData.title}
-              className="w-full h-full object-cover"
-              onError={() => setImageError(true)}
-            />
-          </div>
-        )}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Icon */}
-            <div className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl ${areaData.iconBg} border-2 border-[#c9a84c]/20 flex items-center justify-center flex-shrink-0`}>
-              <Icon className="w-12 h-12 md:w-16 md:h-16" />
-            </div>
+      {/* ===== HERO ===== */}
+      <PageHero
+        title={areaData.title}
+        subtitle={areaData.description}
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'Areas of Law', href: '/areas' },
+          { label: areaData.title },
+        ]}
+        showBackButton={true}
+        backLink="/areas"
+        backLabel="Back to all areas"
+      />
 
-            {/* Text */}
-            <div className="text-center md:text-left">
-              <Link href="/areas" className="inline-flex items-center gap-1 text-gray-400 hover:text-[#c9a84c] transition-colors text-sm mb-2">
-                <ArrowLeft className="w-4 h-4" /> Back to all areas
-              </Link>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                {areaData.title}
-              </h1>
-              <p className="text-gray-300 text-lg mt-2 max-w-2xl">
-                {areaData.description}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
-      </section>
-
-      {/* Content */}
+      {/* ===== MAIN CONTENT ===== */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Full Description */}
+          
+          {/* ===== 500+ WORD CONTENT WITH PROPER PARAGRAPHS ===== */}
           <div className="prose prose-lg max-w-none">
-            <div className="text-[#444] leading-relaxed whitespace-pre-line">
-              {areaData.fullDescription}
+            <div className="space-y-4">
+              {formatContent(areaData.fullDescription)}
             </div>
           </div>
 
-          {/* Stats Bar */}
+          {/* ===== STATS BAR ===== */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 p-6 bg-[#faf8f5] rounded-xl border border-[#e8e0d4]">
             <div className="text-center">
-              <p className="text-2xl font-extrabold text-[#c9a84c]">{areaData.cases}</p>
+              <p className="text-2xl font-extrabold text-[#c9a84c]">{areaData.cases}+</p>
               <p className="text-xs text-[#888]">Cases Handled</p>
             </div>
             <div className="text-center">
@@ -119,8 +198,8 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
               <p className="text-xs text-[#888]">Specialist Barristers</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-extrabold text-[#c9a84c]">100%</p>
-              <p className="text-xs text-[#888]">Client Commitment</p>
+              <p className="text-2xl font-extrabold text-[#c9a84c]">{areaData.experience || '10'}+</p>
+              <p className="text-xs text-[#888]">Years Experience</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-extrabold text-[#c9a84c]">Limpopo</p>
@@ -128,8 +207,8 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             </div>
           </div>
 
-          {/* Barristers Specializing in This Area - DYNAMIC */}
-          {barristersInArea.length > 0 && (
+          {/* ===== BARRISTERS IN THIS AREA ===== */}
+          {hasBarristers && (
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -174,8 +253,8 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             </div>
           )}
 
-          {/* Notable Cases */}
-          {areaData.notableCases.length > 0 && (
+          {/* ===== NOTABLE CASES ===== */}
+          {areaData.notableCases && areaData.notableCases.length > 0 && (
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -202,8 +281,8 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             </div>
           )}
 
-          {/* Testimonials */}
-          {areaData.testimonials.length > 0 && (
+          {/* ===== TESTIMONIALS ===== */}
+          {areaData.testimonials && areaData.testimonials.length > 0 && (
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -227,8 +306,8 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             </div>
           )}
 
-          {/* FAQ Section */}
-          {areaData.faq.length > 0 && (
+          {/* ===== FAQ SECTION ===== */}
+          {areaData.faq && areaData.faq.length > 0 && (
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -242,7 +321,7 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
                       <ChevronDown className="w-5 h-5 text-[#888] group-open:rotate-180 transition-transform" />
                     </summary>
                     <div className="px-5 pb-5 pt-2 text-[#555] border-t border-[#e8e0d4]">
-                      {item.answer}
+                      {formatInlineLinks(item.answer)}
                     </div>
                   </details>
                 ))}
@@ -250,7 +329,7 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
             </div>
           )}
 
-          {/* CTA */}
+          {/* ===== CTA ===== */}
           <div className="mt-12 p-8 bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] rounded-2xl text-white text-center">
             <h3 className="text-2xl font-extrabold mb-3">Need legal advice in {areaData.title}?</h3>
             <p className="text-gray-300 mb-6 max-w-lg mx-auto">
@@ -262,6 +341,10 @@ export default function PracticeAreaClient({ areaData, barristersInArea, slug })
               </Link>
               <a href="tel:+27823413333" className="bg-transparent text-white px-8 py-3 font-semibold rounded-xl border-2 border-white/30 hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all">
                 Call: 082 341 3333
+              </a>
+              <a href="https://wa.me/27823413333" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] text-white px-8 py-3 font-semibold rounded-xl hover:bg-[#1da851] transition-all flex items-center justify-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
               </a>
             </div>
           </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { 
   Mail, 
@@ -16,12 +16,15 @@ import {
   MessageCircle,
   Award,
   Users,
-  Globe
+  Globe,
+  ChevronRight
 } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
 export default function ContactPage() {
+  const [barristerCount, setBarristerCount] = useState(0)
+  const [loading, setLoading] = useState(true)
   const [formData, setFormData] = useState({
     firstName: '',
     surname: '',
@@ -34,6 +37,23 @@ export default function ContactPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+
+  useEffect(() => {
+    const fetchBarristers = async () => {
+      try {
+        const res = await fetch('/api/admin/barristers?limit=1000')
+        const data = await res.json()
+        const barristers = data.barristers || []
+        setBarristerCount(barristers.length)
+      } catch (error) {
+        console.error('Error fetching barristers:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBarristers()
+  }, [])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -104,33 +124,54 @@ export default function ContactPage() {
     <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* ===== COMPACT HERO ===== */}
-      <section className="bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] text-white py-10 md:py-14 border-b-4 border-[#c9a84c]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-[#c9a84c] transition-colors text-sm mb-2">
-                <ArrowLeft className="w-4 h-4" /> Back to home
+      {/* ===== HERO SECTION - DARK WITH WHITE BREADCRUMB ===== */}
+      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-20 overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Breadcrumb - White text */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <nav className="flex items-center gap-1 text-sm text-gray-300 py-3 overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
+              <Link href="/" className="flex items-center gap-1 hover:text-[#c9a84c] transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
+                </svg>
+                <span>Home</span>
               </Link>
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight">
-                Contact <span className="text-[#c9a84c]">Us</span>
-              </h1>
-              <p className="text-gray-400 text-sm md:text-base mt-1 max-w-xl">
-                Get in touch with G20 Chambers for expert legal advice and representation.
-              </p>
-            </div>
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-2 text-gray-300 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                <Award className="w-4 h-4 text-[#c9a84c]" />
-                <span>14 Barristers</span>
+              <span className="text-gray-500">/</span>
+              <span className="text-white font-medium">Contact</span>
+            </nav>
+          </div>
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight">
+              Contact <span className="text-[#c9a84c]">Us</span>
+            </h1>
+            <p className="text-gray-300 text-lg mt-3 max-w-2xl mx-auto">
+              Get in touch with G20 Chambers for expert legal advice and representation.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span>{loading ? '...' : barristerCount} Barristers</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-300 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                <Users className="w-4 h-4 text-[#c9a84c]" />
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
                 <span>8 Practice Areas</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span>Est. 2021</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
+                <span>GCB Member</span>
               </div>
             </div>
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
       {/* ===== MAIN CONTENT ===== */}
@@ -397,6 +438,10 @@ export default function ContactPage() {
                   <p className="text-xs font-semibold text-[#888] uppercase tracking-wider">Phone</p>
                   <a href="tel:+27823413333" className="text-sm text-[#0a1628] font-medium hover:text-[#c9a84c] transition-colors">
                     082 341 3333
+                  </a>
+                  <br />
+                  <a href="tel:+27158801865" className="text-sm text-[#0a1628] font-medium hover:text-[#c9a84c] transition-colors">
+                    015 880 1865
                   </a>
                 </div>
               </div>

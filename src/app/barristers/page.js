@@ -103,22 +103,41 @@ export default function BarristersPage() {
     <main className="w-full overflow-x-hidden">
       <Header />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <Breadcrumb items={[{ label: 'Barristers', href: '/barristers' }]} />
-      </div>
-
-      <section className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Page Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#0a1628] tracking-tight">
+      {/* ===== HERO SECTION - DARK WITH WHITE BREADCRUMB ===== */}
+      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-24 overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Breadcrumb - White text */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <nav className="flex items-center gap-1 text-sm text-gray-300 py-3 overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
+              <Link href="/" className="flex items-center gap-1 hover:text-[#c9a84c] transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
+                </svg>
+                <span>Home</span>
+              </Link>
+              <span className="text-gray-500">/</span>
+              <span className="text-white font-medium">Barristers</span>
+            </nav>
+          </div>
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
               Our <span className="text-[#c9a84c]">Barristers</span>
             </h1>
-            <p className="text-[#666] text-lg mt-3 max-w-2xl mx-auto">
+            <p className="text-gray-300 text-lg mt-3 max-w-2xl mx-auto">
               Experienced advocates committed to your case. With expertise across multiple practice areas, our team is ready to fight for justice.
             </p>
           </div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
+      </section>
 
+      {/* ===== FILTERS & BARRISTERS GRID ===== */}
+      <section className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Stats Bar */}
           <div className="bg-[#faf8f5] rounded-xl p-6 mb-8 flex flex-wrap justify-between items-center border border-[#e8e0d4]">
             <div className="flex flex-wrap items-center gap-6">
