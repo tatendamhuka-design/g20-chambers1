@@ -11,6 +11,7 @@ import Breadcrumb from '../components/Breadcrumb'
 export default function BarristersPage() {
   const [barristers, setBarristers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [selectedArea, setSelectedArea] = useState('All')
   const [selectedAvailability, setSelectedAvailability] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
@@ -24,22 +25,54 @@ export default function BarristersPage() {
 
   const fetchBarristers = async () => {
     setLoading(true)
+    setError(null)
     try {
       const res = await fetch('/api/admin/barristers?limit=100')
-      const data = await res.json()
-      const barristersData = data.barristers || []
       
-      const parsedBarristers = barristersData.map(barrister => ({
-        ...barrister,
-        practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
-      }))
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      
+      const data = await res.json()
+      console.log('API Response:', data) // Debug: check what the API returns
+      
+      // Check if data has barristers
+      if (!data || !data.barristers) {
+        console.warn('No barristers found in API response')
+        setBarristers([])
+        setPracticeAreas([])
+        setLoading(false)
+        return
+      }
+      
+      // Safe parsing of practiceAreas
+      const parsedBarristers = data.barristers.map((barrister) => {
+        let practiceAreas = []
+        try {
+          if (typeof barrister.practiceAreas === 'string') {
+            practiceAreas = JSON.parse(barrister.practiceAreas)
+          } else if (Array.isArray(barrister.practiceAreas)) {
+            practiceAreas = barrister.practiceAreas
+          }
+        } catch (e) {
+          console.warn('Error parsing practiceAreas for:', barrister.name, e)
+        }
+        return {
+          ...barrister,
+          practiceAreas: practiceAreas,
+        }
+      })
       
       setBarristers(parsedBarristers)
       
-      const areas = [...new Set(parsedBarristers.flatMap(b => b.practiceAreas))].sort()
-      setPracticeAreas(areas)
+      // Extract unique practice areas
+      const allAreas = parsedBarristers.flatMap(b => b.practiceAreas || [])
+      const uniqueAreas = [...new Set(allAreas)].sort()
+      setPracticeAreas(uniqueAreas)
+      
     } catch (error) {
       console.error('Error fetching barristers:', error)
+      setError('Failed to load barristers. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -61,10 +94,10 @@ export default function BarristersPage() {
   ]
 
   const filteredBarristers = barristers.filter(barrister => {
-    const matchesArea = selectedArea === 'All' || barrister.practiceAreas.includes(selectedArea)
+    const matchesArea = selectedArea === 'All' || (barrister.practiceAreas || []).includes(selectedArea)
     const matchesAvailability = selectedAvailability === 'All' || barrister.availability === selectedAvailability
     const matchesSearch = barrister.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          barrister.practiceAreas.some(area => area.toLowerCase().includes(searchTerm.toLowerCase()))
+                          (barrister.practiceAreas || []).some(area => area.toLowerCase().includes(searchTerm.toLowerCase()))
     return matchesArea && matchesAvailability && matchesSearch
   })
 
@@ -72,9 +105,9 @@ export default function BarristersPage() {
     if (sortBy === 'name') {
       return a.name.localeCompare(b.name)
     } else if (sortBy === 'seniority') {
-      return a.yearOfCall - b.yearOfCall
+      return (a.yearOfCall || 0) - (b.yearOfCall || 0)
     } else if (sortBy === 'seniority-desc') {
-      return b.yearOfCall - a.yearOfCall
+      return (b.yearOfCall || 0) - (a.yearOfCall || 0)
     } else if (sortBy === 'rating') {
       return (b.rating || 0) - (a.rating || 0)
     }
@@ -99,30 +132,42 @@ export default function BarristersPage() {
     )
   }
 
+  if (error) {
+    return (
+      <main className="w-full overflow-x-hidden">
+        <Header />
+        <section className="section-padding bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center py-12">
+              <p className="text-red-500">{error}</p>
+              <button 
+                onClick={() => fetchBarristers()}
+                className="mt-4 bg-[#c9a84c] text-[#0a1628] px-6 py-2 rounded-lg font-medium"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        </section>
+        <Footer />
+      </main>
+    )
+  }
+
   return (
     <main className="w-full overflow-x-hidden">
       <Header />
       
-      {/* ===== HERO SECTION - DARK WITH WHITE BREADCRUMB ===== */}
-      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <Breadcrumb items={[{ label: 'Barristers', href: '/barristers' }]} />
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-16 md:py-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumb - White text */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <nav className="flex items-center gap-1 text-sm text-gray-300 py-3 overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-              <Link href="/" className="flex items-center gap-1 hover:text-[#c9a84c] transition-colors">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
-                </svg>
-                <span>Home</span>
-              </Link>
-              <span className="text-gray-500">/</span>
-              <span className="text-white font-medium">Barristers</span>
-            </nav>
-          </div>
-          
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
               Our <span className="text-[#c9a84c]">Barristers</span>
@@ -135,7 +180,7 @@ export default function BarristersPage() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
-      {/* ===== FILTERS & BARRISTERS GRID ===== */}
+      {/* Filters & Barristers Grid */}
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Stats Bar */}
@@ -180,12 +225,6 @@ export default function BarristersPage() {
                   value={selectedArea}
                   onChange={(e) => setSelectedArea(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition bg-white text-[#0a1628] appearance-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 16px center',
-                    paddingRight: '40px',
-                  }}
                 >
                   <option value="All">All Areas</option>
                   {practiceAreas.map((area) => (
@@ -201,13 +240,7 @@ export default function BarristersPage() {
                 <select
                   value={selectedAvailability}
                   onChange={(e) => setSelectedAvailability(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition bg-white text-[#0a1628] appearance-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 16px center',
-                    paddingRight: '40px',
-                  }}
+                  className="w-full px-4 py-3 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition bg-white"
                 >
                   <option value="All">All</option>
                   {availabilityStatuses.map((status) => (
@@ -223,13 +256,7 @@ export default function BarristersPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition bg-white text-[#0a1628] appearance-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 16px center',
-                    paddingRight: '40px',
-                  }}
+                  className="w-full px-4 py-3 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition bg-white"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>{option.label}</option>
