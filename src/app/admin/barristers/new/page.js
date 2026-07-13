@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save, X, Plus, Trash2 } from 'lucide-react'
-import ImageUpload from '@/app/components/ImageUpload'
 
 export default function AddBarrister() {
   const router = useRouter()
@@ -315,16 +314,18 @@ export default function AddBarrister() {
           />
         </div>
 
-        {/* Profile Image - WITH UPLOAD */}
+        {/* Profile Image */}
         <div>
-          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image</label>
-          <ImageUpload
-            folder="barristers"
-            onUpload={(url) => setFormData(prev => ({ ...prev, profileImage: url }))}
-            existingImage={formData.profileImage}
-            className="mb-2"
+          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image URL</label>
+          <input
+            type="text"
+            name="profileImage"
+            value={formData.profileImage}
+            onChange={handleChange}
+            className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
+            placeholder="/images/barristers/mathabatha.jpg"
           />
-          <p className="text-xs text-[#888] mt-1">Upload a square image (recommended: 400x400px). JPG, PNG, or WebP format.</p>
+          <p className="text-xs text-[#888] mt-1">Upload images to the <code className="bg-[#faf8f5] px-1 rounded">public/images/barristers/</code> folder</p>
         </div>
 
         {/* Social Links */}

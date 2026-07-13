@@ -24,13 +24,29 @@ export default function AdminBarristers() {
       const res = await fetch(`/api/admin/barristers?page=${currentPage}&limit=${itemsPerPage}&search=${search}`)
       const data = await res.json()
       
-      // Parse practiceAreas for each barrister
-      const parsedBarristers = (data.barristers || []).map(barrister => ({
-        ...barrister,
-        practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : []
-      }))
+      setBarristers(
+        (data.barristers || []).map((barrister) => {
+          let practiceAreas = []
+          try {
+            // Check if practiceAreas is a string (JSON) or already an array
+            if (typeof barrister.practiceAreas === 'string') {
+              practiceAreas = JSON.parse(barrister.practiceAreas)
+            } else if (Array.isArray(barrister.practiceAreas)) {
+              practiceAreas = barrister.practiceAreas
+            } else {
+              practiceAreas = []
+            }
+          } catch (e) {
+            console.warn('Error parsing practiceAreas for:', barrister.name, e)
+            practiceAreas = []
+          }
+          return {
+            ...barrister,
+            practiceAreas: practiceAreas,
+          }
+        })
+      )
       
-      setBarristers(parsedBarristers)
       setTotalPages(data.totalPages || 1)
     } catch (error) {
       console.error('Error fetching barristers:', error)
@@ -159,7 +175,6 @@ export default function AdminBarristers() {
                 </tr>
               ) : (
                 barristers.map((barrister) => {
-                  // Ensure practiceAreas is an array
                   const practiceAreas = Array.isArray(barrister.practiceAreas) ? barrister.practiceAreas : []
                   const initials = barrister.name?.split(' ').map(n => n[0]).join('') || '?'
 

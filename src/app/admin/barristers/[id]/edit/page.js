@@ -45,10 +45,26 @@ export default function EditBarrister({ params }) {
       const res = await fetch(`/api/admin/barristers/${params.id}`)
       if (res.ok) {
         const data = await res.json()
+        
+        // Safe practiceAreas parsing
+        let practiceAreas = []
+        try {
+          if (typeof data.practiceAreas === 'string') {
+            practiceAreas = JSON.parse(data.practiceAreas)
+          } else if (Array.isArray(data.practiceAreas)) {
+            practiceAreas = data.practiceAreas
+          } else {
+            practiceAreas = []
+          }
+        } catch (e) {
+          console.warn('Error parsing practiceAreas:', e)
+          practiceAreas = []
+        }
+
         setFormData({
           ...data,
           yearOfCall: data.yearOfCall || '',
-          practiceAreas: data.practiceAreas || [],
+          practiceAreas: practiceAreas,
           socialLinks: data.socialLinks || { linkedin: '', twitter: '' },
           notableCases: data.notableCases || [],
           reviews: data.reviews || []
@@ -197,7 +213,7 @@ export default function EditBarrister({ params }) {
         </div>
       )}
 
-      {/* Form - Same as Add page but with pre-filled values */}
+      {/* Form */}
       <form onSubmit={handleSubmit} className="bg-white rounded-xl p-4 sm:p-6 border border-[#e8e0d4] shadow-sm space-y-6">
         {/* Basic Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
