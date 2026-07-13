@@ -36,7 +36,7 @@ const legalLinks = [
   {
     name: 'GCBSA',
     href: 'https://gcbsa.co.za',
-    image: '/images/logos/gcbsa.png',
+    image: '/images/logos/GCBSA.png',
   },
   {
     name: 'LPC',

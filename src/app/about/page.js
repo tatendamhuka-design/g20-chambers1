@@ -326,7 +326,7 @@ export default function AboutPage() {
 
             {/* GCBSA */}
             <a 
-              href="https://gcbsa.co.za" 
+              href="https://GCBSA.co.za" 
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white rounded-xl p-6 text-center border border-[#e8e0d4] hover:border-[#c9a84c] hover:shadow-lg transition-all group"
