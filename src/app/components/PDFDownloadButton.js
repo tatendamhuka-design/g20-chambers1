@@ -57,9 +57,9 @@ G20 Chambers | The home of premier barristers
   return (
     <button
       onClick={generateCV}
-      className="w-full bg-[#0a1628] text-white px-8 py-3 font-bold rounded-lg hover:bg-[#1a2a4a] transition-all text-center"
+      className="bg-transparent text-[#0a1628] px-4 py-2.5 font-semibold rounded-xl border-2 border-[#e8e0d4] hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all text-center text-sm flex items-center justify-center gap-2"
     >
-      <FileDown className="w-4 h-4 inline mr-2" />
+      <FileDown className="w-4 h-4" />
       Download CV
     </button>
   )

@@ -15,6 +15,7 @@ import {
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 import Breadcrumb from '@/app/components/Breadcrumb'
+import PDFDownloadButton from '@/app/components/PDFDownloadButton'  // ← Import the client component
 
 const prisma = new PrismaClient()
 
@@ -88,7 +89,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// Premium Star Rating
+// Premium Star Rating - Client Component
 function PremiumStarRating({ rating, reviewCount }) {
   const fullStars = Math.floor(rating || 0)
   const totalStars = 5
@@ -194,7 +195,7 @@ export default async function BarristerProfile({ params }) {
         }}
       />
 
-      {/* ===== PREMIUM HERO SECTION ===== */}
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
@@ -225,7 +226,6 @@ export default async function BarristerProfile({ params }) {
                   </div>
                 )}
               </div>
-              {/* Availability Badge Below Avatar */}
               <div className="flex justify-center mt-3">
                 <PremiumAvailabilityBadge status={barrister.availability} />
               </div>
@@ -245,7 +245,6 @@ export default async function BarristerProfile({ params }) {
               </div>
               <p className="text-lg text-[#c9a84c] font-semibold">{barrister.title}</p>
               
-              {/* Meta Info */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-3">
                 <div className="flex items-center gap-2 text-gray-300 text-sm">
                   <Calendar className="w-4 h-4 text-[#c9a84c]" />
@@ -256,7 +255,6 @@ export default async function BarristerProfile({ params }) {
                 </div>
               </div>
 
-              {/* Social Links */}
               {(barrister.socialLinks?.linkedin || barrister.socialLinks?.twitter) && (
                 <div className="flex gap-2 mt-3 justify-center md:justify-start">
                   {barrister.socialLinks?.linkedin && (
@@ -282,7 +280,6 @@ export default async function BarristerProfile({ params }) {
                 </div>
               )}
 
-              {/* Practice Areas */}
               <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-start">
                 {barrister.practiceAreas.map((area) => (
                   <span
@@ -297,11 +294,10 @@ export default async function BarristerProfile({ params }) {
           </div>
         </div>
 
-        {/* Gold Bottom Border */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
-      {/* ===== MAIN CONTENT ===== */}
+      {/* Main Content */}
       <section className="py-10 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Contact Info Bar */}
@@ -412,51 +408,8 @@ export default async function BarristerProfile({ params }) {
             >
               Chat on WhatsApp
             </a>
-            <button
-              onClick={() => {
-                const content = `
-BARRISTER PROFILE
-=================
-${barrister.name}
-${barrister.title}
-Year of Call: ${barrister.yearOfCall}
-
-PRACTICE AREAS
---------------
-${barrister.practiceAreas.join(', ')}
-
-CONTACT
--------
-Email: ${barrister.email}
-Phone: ${barrister.phone}
-
-EDUCATION
----------
-${barrister.education}
-
-BIOGRAPHY
----------
-${barrister.bio}
-
-NOTABLE CASES
--------------
-${barrister.notableCases?.map(c => `- ${c.title} (${c.year})`).join('\n')}
-`
-                const blob = new Blob([content], { type: 'text/plain' })
-                const url = URL.createObjectURL(blob)
-                const a = document.createElement('a')
-                a.href = url
-                a.download = `${barrister.name.replace(/\s/g, '_')}_CV.txt`
-                document.body.appendChild(a)
-                a.click()
-                document.body.removeChild(a)
-                URL.revokeObjectURL(url)
-              }}
-              className="bg-transparent text-[#0a1628] px-4 py-2.5 font-semibold rounded-xl border-2 border-[#e8e0d4] hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all text-center text-sm flex items-center justify-center gap-2"
-            >
-              <FileDown className="w-4 h-4" />
-              Download CV
-            </button>
+            {/* Use the Client Component for PDF Download */}
+            <PDFDownloadButton barrister={barrister} />
           </div>
 
           {/* Related Barristers */}
