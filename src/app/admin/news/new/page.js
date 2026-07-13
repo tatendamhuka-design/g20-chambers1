@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save } from 'lucide-react'
+import ImageUpload from '@/app/components/ImageUpload'
 
 export default function AddNews() {
   const router = useRouter()
@@ -146,16 +147,16 @@ export default function AddNews() {
           </div>
         </div>
 
+        {/* FEATURED IMAGE - WITH UPLOAD */}
         <div>
-          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Featured Image URL</label>
-          <input
-            type="text"
-            name="featuredImage"
-            value={formData.featuredImage}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
-            placeholder="/images/news/featured.jpg"
+          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Featured Image</label>
+          <ImageUpload
+            folder="news"
+            onUpload={(url) => setFormData(prev => ({ ...prev, featuredImage: url }))}
+            existingImage={formData.featuredImage}
+            className="mb-2"
           />
+          <p className="text-xs text-[#888] mt-1">Upload a featured image (recommended: 1200x630px). JPG, PNG, or WebP format.</p>
         </div>
 
         <div>

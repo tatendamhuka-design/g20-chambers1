@@ -48,7 +48,8 @@ export default function AddBarrister() {
     }))
   }
 
-  const addPracticeArea = () => {
+  const addPracticeArea = (e) => {
+    e.preventDefault()
     if (newPracticeArea && !formData.practiceAreas.includes(newPracticeArea)) {
       setFormData(prev => ({
         ...prev,
@@ -65,7 +66,8 @@ export default function AddBarrister() {
     }))
   }
 
-  const addCase = () => {
+  const addCase = (e) => {
+    e.preventDefault()
     if (newCase.title && newCase.year) {
       setFormData(prev => ({
         ...prev,
@@ -82,7 +84,8 @@ export default function AddBarrister() {
     }))
   }
 
-  const addReview = () => {
+  const addReview = (e) => {
+    e.preventDefault()
     if (newReview.client && newReview.comment) {
       setFormData(prev => ({
         ...prev,
@@ -315,7 +318,7 @@ export default function AddBarrister() {
           />
         </div>
 
-        {/* Profile Image - WITH DRAG & DROP */}
+        {/* Profile Image - WITH UPLOAD */}
         <div>
           <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image</label>
           <ImageUpload

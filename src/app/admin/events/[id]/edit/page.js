@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save, Calendar } from 'lucide-react'
+import ImageUpload from '@/app/components/ImageUpload'
 
 export default function EditEvent({ params }) {
   const router = useRouter()
@@ -194,15 +195,16 @@ export default function EditEvent({ params }) {
           </div>
         </div>
 
+        {/* EVENT IMAGE - WITH UPLOAD */}
         <div>
-          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Image URL</label>
-          <input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
+          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Event Image</label>
+          <ImageUpload
+            folder="events"
+            onUpload={(url) => setFormData(prev => ({ ...prev, image: url }))}
+            existingImage={formData.image}
+            className="mb-2"
           />
+          <p className="text-xs text-[#888] mt-1">Upload an event image (recommended: 1200x630px). JPG, PNG, or WebP format.</p>
         </div>
 
         <div>
