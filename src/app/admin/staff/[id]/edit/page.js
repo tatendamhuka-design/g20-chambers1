@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save } from 'lucide-react'
+import ImageUpload from '@/app/components/ImageUpload'
 
 export default function EditStaff({ params }) {
   const router = useRouter()
@@ -50,6 +51,12 @@ export default function EditStaff({ params }) {
     e.preventDefault()
     setSaving(true)
     setError('')
+
+    if (!formData.name || !formData.role) {
+      setError('Name and role are required.')
+      setSaving(false)
+      return
+    }
 
     try {
       const res = await fetch(`/api/admin/staff/${params.id}`, {
@@ -170,16 +177,16 @@ export default function EditStaff({ params }) {
           />
         </div>
 
+        {/* Profile Image - WITH UPLOAD */}
         <div>
-          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image URL</label>
-          <input
-            type="text"
-            name="profileImage"
-            value={formData.profileImage || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
-            placeholder="/images/staff/name.jpg"
+          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image</label>
+          <ImageUpload
+            folder="staff"
+            onUpload={(url) => setFormData(prev => ({ ...prev, profileImage: url }))}
+            existingImage={formData.profileImage}
+            className="mb-2"
           />
+          <p className="text-xs text-[#888] mt-1">Upload a square image (recommended: 400x400px). JPG, PNG, or WebP format.</p>
         </div>
 
         <div>

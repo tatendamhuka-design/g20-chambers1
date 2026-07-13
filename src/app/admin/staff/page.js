@@ -11,6 +11,7 @@ export default function AdminStaff() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [deleting, setDeleting] = useState(null)
+  const [error, setError] = useState('')
 
   const itemsPerPage = 10
 
@@ -20,13 +21,20 @@ export default function AdminStaff() {
 
   const fetchStaff = async () => {
     setLoading(true)
+    setError('')
     try {
       const res = await fetch(`/api/admin/staff?page=${currentPage}&limit=${itemsPerPage}&search=${search}`)
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      
       const data = await res.json()
       setStaff(data.staff || [])
       setTotalPages(data.totalPages || 1)
     } catch (error) {
       console.error('Error fetching staff:', error)
+      setError('Failed to load staff. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -53,6 +61,7 @@ export default function AdminStaff() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Staff</h1>
@@ -67,6 +76,7 @@ export default function AdminStaff() {
         </Link>
       </div>
 
+      {/* Search Bar */}
       <div className="bg-white rounded-xl p-4 border border-[#e8e0d4] mb-6 shadow-sm">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888]" />
@@ -83,6 +93,14 @@ export default function AdminStaff() {
         </div>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-200 mb-6">
+          {error}
+        </div>
+      )}
+
+      {/* Table */}
       <div className="bg-white rounded-xl border border-[#e8e0d4] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -162,6 +180,7 @@ export default function AdminStaff() {
           </table>
         </div>
 
+        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 border-t border-[#e8e0d4] bg-[#faf8f5]">
             <p className="text-sm text-[#888]">Page {currentPage} of {totalPages}</p>
