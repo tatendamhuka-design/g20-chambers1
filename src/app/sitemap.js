@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default async function sitemap() {
-  const baseUrl = 'https://g20-chambers1.vercel.app'
+  const baseUrl = 'https://g20chambers.co.za'  // ← UPDATED to live domain
 
   // Get all barristers
   const barristers = await prisma.barrister.findMany({
@@ -32,11 +32,11 @@ export default async function sitemap() {
     'property-land-law'
   ]
 
-  // Static pages
+  // Static pages - REMOVED /barrister (incorrect)
   const staticPages = [
     { url: '/', priority: 1.0, changeFrequency: 'daily' },
     { url: '/about', priority: 0.8, changeFrequency: 'monthly' },
-    { url: '/barristers', priority: 0.9, changeFrequency: 'weekly' },
+    { url: '/barristers', priority: 0.9, changeFrequency: 'weekly' },  // ← Correct plural
     { url: '/areas', priority: 0.9, changeFrequency: 'monthly' },
     { url: '/contact', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/public-access', priority: 0.7, changeFrequency: 'monthly' },
@@ -44,7 +44,6 @@ export default async function sitemap() {
     { url: '/events', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/join', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/clerks', priority: 0.6, changeFrequency: 'monthly' },
-    // Join subpages
     { url: '/join/pupillage', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/join/tenancy', priority: 0.6, changeFrequency: 'monthly' },
     { url: '/join/clerks-staff', priority: 0.6, changeFrequency: 'monthly' },
