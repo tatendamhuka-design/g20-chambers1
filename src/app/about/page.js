@@ -12,7 +12,7 @@ import Link from 'next/link'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 
-// Metadata removed from here - it's now in layout.js or metadata.js
+// NO METADATA HERE - It's in layout.js
 
 export default function AboutPage() {
   const [barristerCount, setBarristerCount] = useState(0)
