@@ -10,14 +10,14 @@ const merriweatherSans = Merriweather_Sans({
 })
 
 export const metadata = {
-  metadataBase: new URL('https://g20-chambers1.vercel.app'),
+  metadataBase: new URL('https://g20chambers.co.za'),
   title: {
-    default: 'G20 Chambers | The home of premier barristers in Limpopo',
+    default: 'G20 Chambers | The home of premier advocates in Limpopo',
     template: '%s | G20 Chambers'
   },
-  description: 'G20 Chambers is a leading group of barristers at the Limpopo Bar. Expert legal representation in Criminal Law, Family Law, Human Rights, Civil Litigation, and more. Call 082 341 3333.',
+  description: 'G20 Chambers is a leading group of advocates at the Limpopo Bar. Expert legal representation in Criminal Law, Family Law, Human Rights, Civil Litigation, and more. Call 082 341 3333.',
   keywords: [
-    'barristers Limpopo',
+    'advocates Limpopo',
     'advocates Polokwane',
     'Limpopo Bar',
     'criminal lawyers Limpopo',
@@ -28,7 +28,8 @@ export const metadata = {
     'employment lawyers Limpopo',
     'legal representation South Africa',
     'barristers South Africa',
-    'G20 Chambers'
+    'G20 Chambers',
+    'advocates'
   ],
   authors: [{ name: 'G20 Chambers' }],
   creator: 'G20 Chambers',
@@ -39,9 +40,9 @@ export const metadata = {
     telephone: true,
   },
   openGraph: {
-    title: 'G20 Chambers | The home of premier barristers in Limpopo',
-    description: 'G20 Chambers is a leading group of barristers at the Limpopo Bar. Expert legal representation in Criminal, Family, Human Rights, and Civil Litigation.',
-    url: 'https://g20-chambers1.vercel.app',
+    title: 'G20 Chambers | The home of premier advocates in Limpopo',
+    description: 'G20 Chambers is a leading group of advocates at the Limpopo Bar. Expert legal representation in Criminal, Family, Human Rights, and Civil Litigation.',
+    url: 'https://g20chambers.co.za',
     siteName: 'G20 Chambers',
     locale: 'en_ZA',
     type: 'website',
@@ -50,13 +51,13 @@ export const metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'G20 Chambers - The home of premier barristers in Limpopo',
+        alt: 'G20 Chambers - The home of premier advocates in Limpopo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'G20 Chambers | The home of premier barristers in Limpopo',
+    title: 'G20 Chambers | The home of premier advocates in Limpopo',
     description: 'Expert legal representation in Criminal Law, Family Law, Human Rights, and Civil Litigation. Call 082 341 3333.',
     images: ['/images/og-image.jpg'],
   },
@@ -72,7 +73,7 @@ export const metadata = {
     },
   },
   alternates: {
-    canonical: 'https://g20-chambers1.vercel.app',
+    canonical: 'https://g20chambers.co.za',
   },
   verification: {
     google: 'your-google-verification-code-here',
@@ -96,7 +97,6 @@ export default function RootLayout({ children }) {
         className={`${merriweatherSans.variable} font-merriweather-sans antialiased`}
         suppressHydrationWarning
       >
-        {/* Wrapper with padding-top for fixed header */}
         <div className="pt-[72px] md:pt-[84px]">
           {children}
         </div>

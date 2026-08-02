@@ -12,6 +12,18 @@ import Link from 'next/link'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 
+export const metadata = {
+  title: 'About Us | G20 Chambers',
+  description: 'Learn about G20 Chambers, a leading group of advocates at the Limpopo Bar. Established in 2021, we are the home of premier advocates in Polokwane. Call 082 341 3333.',
+  keywords: 'about G20 Chambers, advocates Limpopo, advocates Polokwane, Limpopo Bar, legal history South Africa, GCB, legal representation South Africa',
+  openGraph: {
+    title: 'About Us | G20 Chambers',
+    description: 'Learn about G20 Chambers, a leading group of advocates at the Limpopo Bar. Established in 2021, we are the home of premier advocates in Polokwane.',
+    url: 'https://g20chambers.co.za/about',
+    type: 'website',
+  },
+}
+
 export default function AboutPage() {
   const [barristerCount, setBarristerCount] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -45,12 +57,12 @@ export default function AboutPage() {
             '@context': 'https://schema.org',
             '@type': 'AboutPage',
             name: 'About G20 Chambers',
-            description: 'G20 Chambers is a leading group of barristers at the Limpopo Bar, established in 2021.',
+            description: 'G20 Chambers is a leading group of advocates at the Limpopo Bar, established in 2021.',
             url: 'https://g20chambers.co.za/about',
             mainEntity: {
               '@type': 'LegalService',
               name: 'G20 Chambers',
-              description: 'A leading group of barristers at the Limpopo Bar, providing expert legal representation.',
+              description: 'A leading group of advocates at the Limpopo Bar, providing expert legal representation.',
               foundingDate: '2021',
               numberOfEmployees: barristerCount || 14,
               address: {
@@ -95,12 +107,12 @@ export default function AboutPage() {
               About <span className="text-[#c9a84c]">G20 Chambers</span>
             </h1>
             <p className="text-gray-300 text-lg mt-3 max-w-2xl mx-auto">
-              The home of premier barristers in Limpopo, committed to fighting injustice, defending human rights, and upholding the rule of law.
+              The home of premier advocates in Limpopo, committed to fighting injustice, defending human rights, and upholding the rule of law.
             </p>
             <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span>{loading ? '...' : barristerCount} Barristers</span>
+                <span>{loading ? '...' : barristerCount} Advocates</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
@@ -134,13 +146,13 @@ export default function AboutPage() {
               
               <div className="space-y-4 text-[#555] leading-relaxed">
                 <p>
-                  <strong className="text-[#0a1628]">G20 Chambers</strong> was established in <strong className="text-[#0a1628]">2021</strong> by a group of passionate advocates who shared a common vision: to create a premier barristers' chambers in Limpopo that would serve the community with integrity, excellence, and fearlessness.
+                  <strong className="text-[#0a1628]">G20 Chambers</strong> was established in <strong className="text-[#0a1628]">2021</strong> by a group of passionate advocates who shared a common vision: to create a premier advocates' chambers in Limpopo that would serve the community with integrity, excellence, and fearlessness.
                 </p>
                 <p>
                   The group was founded by <strong className="text-[#0a1628]">Adv. Malose Monene, Adv. Cali Mathabatha, Adv. Sentle Fenyane, Adv. Germain Ledwaba, and Adv. Chuene Rammutla</strong>. These founding members were soon joined by <strong className="text-[#0a1628]">Adv. Isaac Maila, Adv. Eunice Thete, Adv. Lindiwe Vilakazi, and Adv. Sydney Mgimeti</strong>.
                 </p>
                 <p>
-                  Today, G20 Chambers has grown to <strong className="text-[#0a1628]">{loading ? '...' : barristerCount} barristers</strong> and is proudly situated at <strong className="text-[#0a1628]">39 Voortrekker Street, Polokwane</strong> at the STATSA Campus, directly across from the Limpopo High Court Building.
+                  Today, G20 Chambers has grown to <strong className="text-[#0a1628]">{loading ? '...' : barristerCount} advocates</strong> and is proudly situated at <strong className="text-[#0a1628]">39 Voortrekker Street, Polokwane</strong> at the STATSA Campus, directly across from the Limpopo High Court Building.
                 </p>
                 <p>
                   The group is a constituent member of the <strong className="text-[#0a1628]">General Council of the Bar of South Africa (GCBSA)</strong> through its affiliation with the <strong className="text-[#0a1628]">Limpopo Bar</strong>.
@@ -156,7 +168,7 @@ export default function AboutPage() {
                 </div>
                 <div className="bg-white rounded-xl p-6 text-center border border-[#e8e0d4]">
                   <p className="text-3xl md:text-4xl font-extrabold text-[#c9a84c]">{loading ? '...' : barristerCount}</p>
-                  <p className="text-xs text-[#888] mt-1">Barristers</p>
+                  <p className="text-xs text-[#888] mt-1">Advocates</p>
                 </div>
                 <div className="bg-white rounded-xl p-6 text-center border border-[#e8e0d4]">
                   <p className="text-3xl md:text-4xl font-extrabold text-[#c9a84c]">5</p>
@@ -203,7 +215,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-[#0a1628] mb-2">Our Vision</h3>
               <p className="text-[#555] text-sm leading-relaxed">
-                To be the leading barristers' chambers in Limpopo, recognized for excellence in advocacy, commitment to justice, and service to the community.
+                To be the leading advocates' chambers in Limpopo, recognized for excellence in advocacy, commitment to justice, and service to the community.
               </p>
             </div>
 
@@ -242,7 +254,7 @@ export default function AboutPage() {
               {
                 icon: Award,
                 title: 'Top-Ranked Advocates',
-                desc: 'Our barristers are recognized for their excellence in advocacy and legal expertise.'
+                desc: 'Our advocates are recognized for their excellence in advocacy and legal expertise.'
               },
               {
                 icon: MapPin,
@@ -326,7 +338,7 @@ export default function AboutPage() {
 
             {/* GCBSA */}
             <a 
-              href="https://GCBSA.co.za" 
+              href="https://gcbsa.co.za" 
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white rounded-xl p-6 text-center border border-[#e8e0d4] hover:border-[#c9a84c] hover:shadow-lg transition-all group"
@@ -482,7 +494,7 @@ export default function AboutPage() {
               href="/barristers"
               className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-3.5 font-semibold rounded-xl border-2 border-white/30 hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all hover:scale-105"
             >
-              Meet Our Barristers <ChevronRight className="w-4 h-4" />
+              Meet Our Advocates <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

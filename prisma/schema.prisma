@@ -7,7 +7,6 @@ datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
-
 // Admin users (for login)
 model Admin {
   id        String   @id @default(cuid())
@@ -97,24 +96,6 @@ model Newsletter {
   status        String   @default("draft") // draft, sent, scheduled
   sentDate      DateTime?
   recipients    Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-// Events
-model Event {
-  id            String   @id @default(cuid())
-  slug          String   @unique
-  title         String
-  description   String?  // Remove @db.Text
-  date          DateTime
-  time          String?
-  location      String?
-  type          String?
-  price         String?
-  image         String?
-  seoMetaTitle  String?
-  seoMetaDesc   String?  // Remove @db.Text
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

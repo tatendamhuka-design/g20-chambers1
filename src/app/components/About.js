@@ -22,12 +22,12 @@ export default function About() {
             </span>
             
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#0a1628] leading-tight mb-4">
-              The home of <span className="text-[#c9a84c]">premier barristers</span> in Limpopo
+              The home of <span className="text-[#c9a84c]">premier advocates</span> in Limpopo
             </h2>
             
             <div className="bg-[#faf8f5] p-5 rounded-xl border-l-4 border-[#c9a84c] mb-6">
               <p className="font-serif text-base md:text-lg font-medium text-[#0a1628] leading-relaxed">
-                "G20 Chambers is a group of barristers who are members of the Limpopo Bar, a constituent member of the General Council of the Bar of South Africa (GCB)."
+                "G20 Chambers is a group of advocates who are members of the Limpopo Bar, a constituent member of the General Council of the Bar of South Africa (GCB)."
               </p>
             </div>
             
@@ -39,7 +39,7 @@ export default function About() {
               </p>
               
               <p>
-                The group now has <span className="font-semibold text-[#0a1628]">14 barristers</span> and is situated at 
+                The group now has <span className="font-semibold text-[#0a1628]">14 advocates</span> and is situated at 
                 <span className="text-[#0a1628] font-semibold"> 39 Voortrekker Street, Polokwane</span> at the STATSA Campus, 
                 directly across from the Limpopo High Court Building.
               </p>
@@ -48,7 +48,7 @@ export default function About() {
             <div className="flex flex-wrap gap-6 mt-6">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
-                <span className="text-sm text-[#555]">14+ Barristers</span>
+                <span className="text-sm text-[#555]">14+ Advocates</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c]"></div>
@@ -80,17 +80,15 @@ export default function About() {
                 <>
                   <Image
                     src="/images/about-image.jpg"
-                    alt="G20 Chambers - The home of premier barristers in Limpopo"
+                    alt="G20 Chambers - The home of premier advocates in Limpopo"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     onError={() => setImgError(true)}
                   />
                   
-                  {/* Gold Border Overlay */}
                   <div className="absolute inset-0 border-2 border-[#c9a84c]/20 rounded-2xl pointer-events-none"></div>
                   
-                  {/* EST. 2021 BADGE - Top Right */}
                   <div className="absolute top-4 right-4 z-20">
                     <div className="bg-[#c9a84c] text-[#0a1628] px-4 py-2 md:px-5 md:py-2.5 rounded-full shadow-2xl border-2 border-white/30 flex items-center gap-2">
                       <Calendar className="w-4 h-4 md:w-4 md:h-4" />
@@ -98,13 +96,11 @@ export default function About() {
                     </div>
                   </div>
 
-                  {/* Bottom Badge - "A group of Advocates" */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-[#0a1628]/80 backdrop-blur-sm text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full border border-[#c9a84c]/30 flex items-center gap-2 whitespace-nowrap">
                     <Scale className="w-4 h-4 text-[#c9a84c]" />
                     <span className="text-xs md:text-sm font-medium tracking-wide">A group of Advocates</span>
                   </div>
 
-                  {/* Top Left - G20 Chambers Tag */}
                   <div className="absolute top-4 left-4 z-20 bg-[#0a1628]/70 backdrop-blur-sm text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-[#c9a84c]/20">
                     <span className="text-xs md:text-sm font-semibold tracking-wide">
                       G20 <span className="text-[#c9a84c]">Chambers</span>
@@ -116,7 +112,7 @@ export default function About() {
                   <div className="text-center text-white p-8">
                     <Scale className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
                     <p className="text-xl font-bold text-[#c9a84c]">G20 Chambers</p>
-                    <p className="text-sm text-gray-400">The home of premier barristers</p>
+                    <p className="text-sm text-gray-400">The home of premier advocates</p>
                   </div>
                 </div>
               )}

@@ -8,6 +8,18 @@ import BarristerCard from '../components/BarristerCard'
 import QuickViewModal from '../components/QuickViewModal'
 import Breadcrumb from '../components/Breadcrumb'
 
+export const metadata = {
+  title: 'Our Advocates | G20 Chambers',
+  description: 'Meet our specialist advocates at G20 Chambers in Limpopo. Expert legal representation in Criminal Law, Family Law, Human Rights, Civil Litigation, and more. Call 082 341 3333.',
+  keywords: 'advocates Limpopo, advocates Polokwane, legal representation South Africa, G20 Chambers advocates',
+  openGraph: {
+    title: 'Our Advocates | G20 Chambers',
+    description: 'Meet our specialist advocates at G20 Chambers in Limpopo. Expert legal representation across all practice areas.',
+    url: 'https://g20chambers.co.za/barristers',
+    type: 'website',
+  },
+}
+
 export default function BarristersPage() {
   const [barristers, setBarristers] = useState([])
   const [loading, setLoading] = useState(true)
@@ -34,18 +46,14 @@ export default function BarristersPage() {
       }
       
       const data = await res.json()
-      console.log('API Response:', data) // Debug: check what the API returns
       
-      // Check if data has barristers
       if (!data || !data.barristers) {
-        console.warn('No barristers found in API response')
         setBarristers([])
         setPracticeAreas([])
         setLoading(false)
         return
       }
       
-      // Safe parsing of practiceAreas
       const parsedBarristers = data.barristers.map((barrister) => {
         let practiceAreas = []
         try {
@@ -65,14 +73,13 @@ export default function BarristersPage() {
       
       setBarristers(parsedBarristers)
       
-      // Extract unique practice areas
       const allAreas = parsedBarristers.flatMap(b => b.practiceAreas || [])
       const uniqueAreas = [...new Set(allAreas)].sort()
       setPracticeAreas(uniqueAreas)
       
     } catch (error) {
       console.error('Error fetching barristers:', error)
-      setError('Failed to load barristers. Please try again.')
+      setError('Failed to load advocates. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -123,7 +130,7 @@ export default function BarristersPage() {
         <section className="section-padding bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center py-12">
-              <p className="text-[#888]">Loading barristers...</p>
+              <p className="text-[#888]">Loading advocates...</p>
             </div>
           </div>
         </section>
@@ -159,7 +166,7 @@ export default function BarristersPage() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <Breadcrumb items={[{ label: 'Barristers', href: '/barristers' }]} />
+        <Breadcrumb items={[{ label: 'Advocates', href: '/barristers' }]} />
       </div>
 
       {/* Hero Section */}
@@ -170,7 +177,7 @@ export default function BarristersPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              Our <span className="text-[#c9a84c]">Barristers</span>
+              Our <span className="text-[#c9a84c]">Advocates</span>
             </h1>
             <p className="text-gray-300 text-lg mt-3 max-w-2xl mx-auto">
               Experienced advocates committed to your case. With expertise across multiple practice areas, our team is ready to fight for justice.
@@ -180,7 +187,7 @@ export default function BarristersPage() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
-      {/* Filters & Barristers Grid */}
+      {/* Filters & Advocates Grid */}
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Stats Bar */}
@@ -188,7 +195,7 @@ export default function BarristersPage() {
             <div className="flex flex-wrap items-center gap-6">
               <div>
                 <span className="text-2xl font-extrabold text-[#0a1628]">{barristers.length}</span>
-                <span className="text-[#555] ml-2">Barristers</span>
+                <span className="text-[#555] ml-2">Advocates</span>
               </div>
               <div>
                 <span className="text-2xl font-extrabold text-[#0a1628]">{practiceAreas.length}</span>
@@ -281,7 +288,7 @@ export default function BarristersPage() {
             )}
           </div>
 
-          {/* Barristers Grid */}
+          {/* Advocates Grid */}
           {sortedBarristers.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {sortedBarristers.map((barrister) => (
@@ -294,7 +301,7 @@ export default function BarristersPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-[#888] text-lg">No barristers found matching your criteria.</p>
+              <p className="text-[#888] text-lg">No advocates found matching your criteria.</p>
               <button
                 onClick={() => {
                   setSelectedArea('All')

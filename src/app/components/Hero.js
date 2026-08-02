@@ -27,7 +27,6 @@ export default function Hero() {
             <div className="absolute top-1/2 left-1/2 w-1/4 h-1/4 bg-[#c9a84c]/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
           </div>
         )}
-        {/* Lighter Overlay - Reduced opacity so image is more visible */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/70 via-[#0a1628]/50 to-transparent md:from-[#0a1628]/70 md:via-[#0a1628]/50"></div>
       </div>
 
@@ -42,7 +41,7 @@ export default function Hero() {
               The home of
             </span>
             <span className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-[#c9a84c] italic block">
-              premier barristers
+              premier advocates
             </span>
           </h1>
 
@@ -51,7 +50,7 @@ export default function Hero() {
           </p>
 
           <p className="text-sm md:text-lg font-light max-w-xl text-gray-300 leading-relaxed mb-6 md:mb-8 mx-auto md:mx-0">
-            G20 Chambers is a premier barristers' chambers dedicated to providing
+            G20 Chambers is a premier advocates' chambers dedicated to providing
             top-notch advocate services to clients across Limpopo and beyond.
           </p>
 
@@ -66,7 +65,7 @@ export default function Hero() {
               href="/barristers"
               className="inline-block bg-transparent text-white px-6 md:px-8 py-2.5 md:py-3.5 font-semibold rounded-lg border-2 border-white/30 hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all hover:scale-105 uppercase tracking-wide text-xs md:text-sm"
             >
-              Meet Our Barristers
+              Meet Our Advocates
             </Link>
           </div>
         </div>

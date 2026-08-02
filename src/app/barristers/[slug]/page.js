@@ -15,11 +15,10 @@ import {
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 import Breadcrumb from '@/app/components/Breadcrumb'
-import PDFDownloadButton from '@/app/components/PDFDownloadButton'  // ← Import the client component
+import PDFDownloadButton from '@/app/components/PDFDownloadButton'
 
 const prisma = new PrismaClient()
 
-// Generate static paths
 export async function generateStaticParams() {
   const barristers = await prisma.barrister.findMany({
     select: { slug: true }
@@ -29,7 +28,6 @@ export async function generateStaticParams() {
   }))
 }
 
-// Get barrister by slug
 async function getBarristerBySlug(slug) {
   const barrister = await prisma.barrister.findUnique({
     where: { slug }
@@ -46,7 +44,6 @@ async function getBarristerBySlug(slug) {
   }
 }
 
-// Get related barristers
 async function getRelatedBarristers(slug, limit = 3) {
   const current = await getBarristerBySlug(slug)
   if (!current) return []
@@ -72,16 +69,16 @@ export async function generateMetadata({ params }) {
   
   if (!barrister) {
     return {
-      title: 'Barrister Not Found',
+      title: 'Advocate Not Found',
     }
   }
 
   return {
-    title: `${barrister.name} | Barrister at G20 Chambers`,
-    description: `${barrister.name} is a ${barrister.title} at G20 Chambers in Limpopo. Specializes in ${barrister.practiceAreas.join(', ')}. Expert legal representation in ${barrister.practiceAreas[0] || 'law'} and more.`,
-    keywords: `${barrister.name}, barrister Limpopo, advocate Polokwane, ${barrister.practiceAreas.join(', ')}, legal representation South Africa`,
+    title: `${barrister.name} | Advocate at G20 Chambers`,
+    description: `${barrister.name} is a ${barrister.title} at G20 Chambers in Limpopo. Specializes in ${barrister.practiceAreas.join(', ')}. Expert legal representation in ${barrister.practiceAreas[0] || 'law'} and more. Call 082 341 3333.`,
+    keywords: `${barrister.name}, advocate Limpopo, advocate Polokwane, ${barrister.practiceAreas.join(', ')}, legal representation South Africa, G20 Chambers`,
     openGraph: {
-      title: `${barrister.name} | Barrister at G20 Chambers`,
+      title: `${barrister.name} | Advocate at G20 Chambers`,
       description: `${barrister.name} is a ${barrister.title} at G20 Chambers in Limpopo. Specializes in ${barrister.practiceAreas.join(', ')}.`,
       url: `https://g20chambers.co.za/barristers/${barrister.slug}`,
       type: 'profile',
@@ -89,7 +86,6 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// Premium Star Rating - Client Component
 function PremiumStarRating({ rating, reviewCount }) {
   const fullStars = Math.floor(rating || 0)
   const totalStars = 5
@@ -115,7 +111,6 @@ function PremiumStarRating({ rating, reviewCount }) {
   )
 }
 
-// Premium Availability Badge
 function PremiumAvailabilityBadge({ status }) {
   const config = {
     accepting: {
@@ -150,7 +145,6 @@ export default async function BarristerProfile({ params }) {
 
   const relatedBarristers = await getRelatedBarristers(params.slug)
 
-  // Get initials for fallback
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('')
   }
@@ -159,15 +153,13 @@ export default async function BarristerProfile({ params }) {
     <main className="w-full overflow-x-hidden">
       <Header />
 
-      {/* Breadcrumb */}
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <Breadcrumb items={[
-          { label: 'Barristers', href: '/barristers' },
+          { label: 'Advocates', href: '/barristers' },
           { label: barrister.name, href: `/barristers/${barrister.slug}` },
         ]} />
       </div>
 
-      {/* Schema Markup */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -195,7 +187,6 @@ export default async function BarristerProfile({ params }) {
         }}
       />
 
-      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
@@ -206,12 +197,10 @@ export default async function BarristerProfile({ params }) {
             className="inline-flex items-center gap-2 text-gray-400 hover:text-[#c9a84c] transition-colors mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to all barristers
+            Back to all advocates
           </Link>
 
-          {/* Profile Header */}
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            {/* Avatar with Image */}
             <div className="relative flex-shrink-0">
               <div className="w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#c9a84c] shadow-2xl shadow-[#c9a84c]/30 bg-[#1a2a3a]">
                 {barrister.profileImage ? (
@@ -231,7 +220,6 @@ export default async function BarristerProfile({ params }) {
               </div>
             </div>
 
-            {/* Name and Details */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-1">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
@@ -297,10 +285,8 @@ export default async function BarristerProfile({ params }) {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
-      {/* Main Content */}
       <section className="py-10 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Contact Info Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 p-4 bg-[#faf8f5] rounded-xl border border-[#e8e0d4]">
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-[#c9a84c] flex-shrink-0" />
@@ -329,7 +315,6 @@ export default async function BarristerProfile({ params }) {
             </div>
           </div>
 
-          {/* Biography */}
           <div className="mb-10">
             <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
               <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -340,7 +325,6 @@ export default async function BarristerProfile({ params }) {
             </div>
           </div>
 
-          {/* Notable Cases */}
           {barrister.notableCases && barrister.notableCases.length > 0 && (
             <div className="mb-10">
               <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
@@ -368,7 +352,6 @@ export default async function BarristerProfile({ params }) {
             </div>
           )}
 
-          {/* Client Reviews */}
           {barrister.reviews && barrister.reviews.length > 0 && (
             <div className="mb-10">
               <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
@@ -392,13 +375,12 @@ export default async function BarristerProfile({ params }) {
             </div>
           )}
 
-          {/* Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-[#e8e0d4]">
             <a
               href="/contact"
               className="bg-[#c9a84c] text-[#0a1628] px-4 py-2.5 font-bold rounded-xl hover:bg-[#e0c66e] transition-all text-center text-sm"
             >
-              Enquire About This Barrister
+              Enquire About This Advocate
             </a>
             <a
               href="https://wa.me/27823413333"
@@ -408,15 +390,13 @@ export default async function BarristerProfile({ params }) {
             >
               Chat on WhatsApp
             </a>
-            {/* Use the Client Component for PDF Download */}
             <PDFDownloadButton barrister={barrister} />
           </div>
 
-          {/* Related Barristers */}
           {relatedBarristers.length > 0 && (
             <div className="mt-12 pt-10 border-t border-[#e8e0d4]">
               <h2 className="text-xl font-extrabold text-[#0a1628] mb-6 text-center">
-                Related <span className="text-[#c9a84c]">Barristers</span>
+                Related <span className="text-[#c9a84c]">Advocates</span>
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {relatedBarristers.map((related) => (
