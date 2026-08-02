@@ -1,10 +1,12 @@
-import { prisma } from '../../../../../lib/prisma'  // This is correct (5 levels up)
+import { PrismaClient } from '@prisma/client'
 
 export async function GET(request, { params }) {
   try {
+    const prisma = new PrismaClient()
     const { email } = params
 
     if (!email) {
+      await prisma.$disconnect()
       return Response.json({ error: 'Email is required' }, { status: 400 })
     }
 
@@ -15,6 +17,8 @@ export async function GET(request, { params }) {
         unsubscribedAt: new Date()
       }
     })
+
+    await prisma.$disconnect()
 
     return Response.json({ success: true, message: 'Unsubscribed successfully' })
   } catch (error) {

@@ -1,7 +1,9 @@
-import { prisma } from '../../../../lib/prisma'  // 4 levels up
+import { PrismaClient } from '@prisma/client'
 
 export async function GET(request) {
   try {
+    const prisma = new PrismaClient()
+    
     const url = new URL(request.url)
     const page = parseInt(url.searchParams.get('page')) || 1
     const limit = parseInt(url.searchParams.get('limit')) || 9
@@ -22,11 +24,12 @@ export async function GET(request) {
       prisma.news.count({ where })
     ])
 
-    // Get all categories for filter
     const categories = await prisma.news.groupBy({
       by: ['category'],
       _count: true
     })
+
+    await prisma.$disconnect()
 
     return Response.json({
       news,

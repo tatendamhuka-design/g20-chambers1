@@ -1,7 +1,9 @@
-import { prisma } from '../../../../lib/prisma'  // 4 levels up
+import { PrismaClient } from '@prisma/client'
 
 export async function GET() {
   try {
+    const prisma = new PrismaClient()
+    
     const events = await prisma.event.findMany({
       where: {
         date: {
@@ -10,6 +12,8 @@ export async function GET() {
       },
       orderBy: { date: 'asc' }
     })
+
+    await prisma.$disconnect()
 
     return Response.json({
       events,

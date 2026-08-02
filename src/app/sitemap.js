@@ -1,24 +1,38 @@
-import { prisma } from '../lib/prisma'  // ← Changed from '../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
 
 export default async function sitemap() {
   const baseUrl = 'https://g20chambers.co.za'
 
-  // Get all barristers
-  const barristers = await prisma.barrister.findMany({
-    select: { slug: true, updatedAt: true }
-  })
+  let barristers = []
+  let news = []
+  let events = []
 
-  // Get all news articles
-  const news = await prisma.news.findMany({
-    select: { slug: true, updatedAt: true }
-  })
+  // Only try to connect to database if we're not in static export
+  try {
+    const prisma = new PrismaClient()
+    
+    // Get all barristers
+    barristers = await prisma.barrister.findMany({
+      select: { slug: true, updatedAt: true }
+    })
 
-  // Get all events
-  const events = await prisma.event.findMany({
-    select: { slug: true, updatedAt: true }
-  })
+    // Get all news articles
+    news = await prisma.news.findMany({
+      select: { slug: true, updatedAt: true }
+    })
 
-  // Practice areas (static slugs)
+    // Get all events
+    events = await prisma.event.findMany({
+      select: { slug: true, updatedAt: true }
+    })
+
+    await prisma.$disconnect()
+  } catch (error) {
+    console.warn('⚠️ Could not fetch dynamic data for sitemap:', error.message)
+    // Continue with empty arrays
+  }
+
+  // Practice areas (static slugs - always included)
   const practiceAreaSlugs = [
     'criminal-law',
     'family-law',
