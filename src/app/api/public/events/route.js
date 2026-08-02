@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'  // ← Changed from '@prisma/client'
+import { prisma } from '../../../../lib/prisma'  // ← Changed from '@/lib/prisma'
 
 // GET - Public events listing
 export async function GET() {

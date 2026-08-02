@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'  // ← Changed from '@prisma/client'
+import { prisma } from '../../lib/prisma'  // ← Changed from '@/lib/prisma'
 
 export default async function sitemap() {
   const baseUrl = 'https://g20chambers.co.za'
