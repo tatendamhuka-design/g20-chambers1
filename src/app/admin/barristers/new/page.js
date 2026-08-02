@@ -13,6 +13,8 @@ export default function AddBarrister() {
   const [formData, setFormData] = useState({
     name: '',
     title: '',
+    titlePrefix: '', // ← New: Adv., Mr., Mrs., Ms., Dr.
+    currentPosition: '', // ← New: Current position
     yearOfCall: '',
     practiceAreas: [],
     availability: 'accepting',
@@ -29,6 +31,26 @@ export default function AddBarrister() {
   const [newPracticeArea, setNewPracticeArea] = useState('')
   const [newCase, setNewCase] = useState({ title: '', year: '', description: '' })
   const [newReview, setNewReview] = useState({ client: '', rating: 5, comment: '' })
+
+  const titlePrefixOptions = [
+    { value: '', label: 'Select title prefix' },
+    { value: 'Adv.', label: 'Adv.' },
+    { value: 'Junior Council', label: 'Junior Council' },
+    { value: 'Mr.', label: 'Mr.' },
+    { value: 'Mrs.', label: 'Mrs.' },
+    { value: 'Ms.', label: 'Ms.' },
+    { value: 'Dr.', label: 'Dr.' },
+  ]
+
+  const currentPositionOptions = [
+    { value: '', label: 'Select current position' },
+    { value: 'Head of Chambers', label: 'Head of Chambers' },
+    { value: 'Senior Barrister', label: 'Senior Barrister' },
+    { value: 'Barrister', label: 'Barrister' },
+    { value: 'Junior Barrister', label: 'Junior Barrister' },
+    { value: 'Pupil', label: 'Pupil' },
+    { value: 'Council Member', label: 'Council Member' },
+  ]
 
   const practiceAreaOptions = [
     'Criminal Law', 'Human Rights', 'Civil Litigation', 'Family Law',
@@ -170,6 +192,35 @@ export default function AddBarrister() {
         {/* Basic Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
+            <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Title Prefix</label>
+            <select
+              name="titlePrefix"
+              value={formData.titlePrefix}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm bg-white"
+            >
+              {titlePrefixOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Current Position</label>
+            <select
+              name="currentPosition"
+              value={formData.currentPosition}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm bg-white"
+            >
+              {currentPositionOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
             <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Full Name *</label>
             <input
               type="text"
@@ -178,7 +229,7 @@ export default function AddBarrister() {
               onChange={handleChange}
               required
               className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
-              placeholder="Barrister Mathabatha"
+              placeholder="Mathabatha"
             />
           </div>
           <div>
@@ -318,7 +369,7 @@ export default function AddBarrister() {
           />
         </div>
 
-        {/* Profile Image - WITH UPLOAD */}
+        {/* Profile Image */}
         <div>
           <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Profile Image</label>
           <ImageUpload
