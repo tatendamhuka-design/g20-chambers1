@@ -1,4 +1,4 @@
-import { prisma } from '../../../../lib/prisma'  // ← Changed from '@/lib/prisma'
+import { prisma } from '../../../../lib/prisma'  // This is correct (4 levels up)
 
 export async function POST(request) {
   try {

@@ -1,6 +1,5 @@
-import { prisma } from '../../../../lib/prisma'  // ← Changed from '@/lib/prisma'
+import { prisma } from '../../../../lib/prisma'  // 4 levels up
 
-// GET - Public events listing
 export async function GET() {
   try {
     const events = await prisma.event.findMany({

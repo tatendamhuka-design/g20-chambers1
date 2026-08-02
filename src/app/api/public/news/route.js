@@ -1,6 +1,5 @@
-import { prisma } from '../../../../lib/prisma'  // ← Changed from '@/lib/prisma'
+import { prisma } from '../../../../lib/prisma'  // 4 levels up
 
-// GET - Public news listing
 export async function GET(request) {
   try {
     const url = new URL(request.url)
