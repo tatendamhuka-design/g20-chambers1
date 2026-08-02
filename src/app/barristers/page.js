@@ -8,18 +8,6 @@ import BarristerCard from '../components/BarristerCard'
 import QuickViewModal from '../components/QuickViewModal'
 import Breadcrumb from '../components/Breadcrumb'
 
-export const metadata = {
-  title: 'Our Advocates | G20 Chambers',
-  description: 'Meet our specialist advocates at G20 Chambers in Limpopo. Expert legal representation in Criminal Law, Family Law, Human Rights, Civil Litigation, and more. Call 082 341 3333.',
-  keywords: 'advocates Limpopo, advocates Polokwane, legal representation South Africa, G20 Chambers advocates',
-  openGraph: {
-    title: 'Our Advocates | G20 Chambers',
-    description: 'Meet our specialist advocates at G20 Chambers in Limpopo. Expert legal representation across all practice areas.',
-    url: 'https://g20chambers.co.za/barristers',
-    type: 'website',
-  },
-}
-
 export default function BarristersPage() {
   const [barristers, setBarristers] = useState([])
   const [loading, setLoading] = useState(true)
