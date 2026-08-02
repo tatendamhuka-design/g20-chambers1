@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'  // ← Changed from '@prisma/client'
 
 export default async function sitemap() {
-  const baseUrl = 'https://g20chambers.co.za'  // ← UPDATED to live domain
+  const baseUrl = 'https://g20chambers.co.za'
 
   // Get all barristers
   const barristers = await prisma.barrister.findMany({
@@ -32,11 +30,11 @@ export default async function sitemap() {
     'property-land-law'
   ]
 
-  // Static pages - REMOVED /barrister (incorrect)
+  // Static pages
   const staticPages = [
     { url: '/', priority: 1.0, changeFrequency: 'daily' },
     { url: '/about', priority: 0.8, changeFrequency: 'monthly' },
-    { url: '/barristers', priority: 0.9, changeFrequency: 'weekly' },  // ← Correct plural
+    { url: '/barristers', priority: 0.9, changeFrequency: 'weekly' },
     { url: '/areas', priority: 0.9, changeFrequency: 'monthly' },
     { url: '/contact', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/public-access', priority: 0.7, changeFrequency: 'monthly' },

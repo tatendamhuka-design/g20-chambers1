@@ -1,11 +1,8 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'  // ← Changed from '@prisma/client'
 
 // GET - Public news listing
 export async function GET(request) {
   try {
-    // Parse URL parameters manually without using request.url directly
     const url = new URL(request.url)
     const page = parseInt(url.searchParams.get('page')) || 1
     const limit = parseInt(url.searchParams.get('limit')) || 9
@@ -45,5 +42,4 @@ export async function GET(request) {
   }
 }
 
-// Force dynamic rendering
 export const dynamic = 'force-dynamic'

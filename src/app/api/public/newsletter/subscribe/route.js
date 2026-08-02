@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'  // ← Changed from '@prisma/client'
 
 export async function POST(request) {
   try {
@@ -43,5 +41,3 @@ export async function POST(request) {
     return Response.json({ error: 'Failed to subscribe' }, { status: 500 })
   }
 }
-
-
