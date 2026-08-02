@@ -2,7 +2,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
 import PracticeAreas from './components/PracticeAreas'
-import AreasWeServe from './components/AreasWeServe'
+import LocationsWeServe from './components/LocationsWeServe'  // ← Changed from AreasWeServe
 import NotableCases from './components/NotableCases'
 import Team from './components/Team'
 import Testimonials from './components/Testimonials'
@@ -32,7 +32,7 @@ export default function Home() {
       <Hero />
       <About />
       <PracticeAreas />
-      <AreasWeServe />
+      <LocationsWeServe />  {/* ← Changed from AreasWeServe */}
       <NotableCases />
       <Team />
       <Testimonials />
