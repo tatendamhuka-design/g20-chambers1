@@ -14,8 +14,8 @@ export default function EditBarrister({ params }) {
   const [formData, setFormData] = useState({
     name: '',
     title: '',
-    titlePrefix: '', // ← New
-    currentPosition: '', // ← New
+    titlePrefix: '',
+    currentPosition: '',
     yearOfCall: '',
     practiceAreas: [],
     availability: 'accepting',
@@ -46,9 +46,9 @@ export default function EditBarrister({ params }) {
   const currentPositionOptions = [
     { value: '', label: 'Select current position' },
     { value: 'Head of Chambers', label: 'Head of Chambers' },
-    { value: 'Senior Barrister', label: 'Senior Barrister' },
-    { value: 'Barrister', label: 'Barrister' },
-    { value: 'Junior Barrister', label: 'Junior Barrister' },
+    { value: 'Senior Advocate', label: 'Senior Advocate' },
+    { value: 'Advocate', label: 'Advocate' },
+    { value: 'Junior Advocate', label: 'Junior Advocate' },
     { value: 'Pupil', label: 'Pupil' },
     { value: 'Council Member', label: 'Council Member' },
   ]
@@ -92,10 +92,10 @@ export default function EditBarrister({ params }) {
           reviews: data.reviews || []
         })
       } else {
-        setError('Failed to load barrister')
+        setError('Failed to load advocate profile')
       }
     } catch (error) {
-      setError('Failed to load barrister')
+      setError('Failed to load advocate profile')
     } finally {
       setLoading(false)
     }
@@ -197,10 +197,10 @@ export default function EditBarrister({ params }) {
         router.refresh()
       } else {
         const data = await res.json()
-        setError(data.error || 'Failed to update barrister')
+        setError(data.error || 'Failed to update advocate profile')
       }
     } catch (error) {
-      console.error('Error updating barrister:', error)
+      console.error('Error updating advocate:', error)
       setError('Something went wrong. Please try again.')
     } finally {
       setSaving(false)
@@ -210,7 +210,7 @@ export default function EditBarrister({ params }) {
   if (loading) {
     return (
       <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl mx-auto">
-        <div className="text-center py-12 text-[#888]">Loading barrister...</div>
+        <div className="text-center py-12 text-[#888]">Loading advocate profile...</div>
       </div>
     )
   }
@@ -226,8 +226,8 @@ export default function EditBarrister({ params }) {
           <ArrowLeft className="w-5 h-5 text-[#888]" />
         </Link>
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Edit Barrister</h1>
-          <p className="text-sm text-[#888] mt-1">Update barrister profile</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Edit Advocate</h1>
+          <p className="text-sm text-[#888] mt-1">Update advocate profile</p>
         </div>
       </div>
 
@@ -273,8 +273,7 @@ export default function EditBarrister({ params }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Full Name *</label>
-            <input
-              type="text"
+            <input              type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -294,9 +293,9 @@ export default function EditBarrister({ params }) {
             >
               <option value="">Select title</option>
               <option value="Head of Chambers">Head of Chambers</option>
-              <option value="Senior Barrister">Senior Barrister</option>
-              <option value="Barrister">Barrister</option>
-              <option value="Junior Barrister">Junior Barrister</option>
+              <option value="Senior Advocate">Senior Advocate</option>
+              <option value="Advocate">Advocate</option>
+              <option value="Junior Advocate">Junior Advocate</option>
               <option value="Pupil">Pupil</option>
               <option value="Council Member">Council Member</option>
             </select>
@@ -416,7 +415,7 @@ export default function EditBarrister({ params }) {
             onChange={handleChange}
             rows="6"
             className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm resize-none"
-            placeholder="Write a detailed biography of the barrister..."
+            placeholder="Write a detailed biography of the advocate..."
           />
         </div>
 

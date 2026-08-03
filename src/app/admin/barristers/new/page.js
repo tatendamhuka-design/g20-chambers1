@@ -13,8 +13,8 @@ export default function AddBarrister() {
   const [formData, setFormData] = useState({
     name: '',
     title: '',
-    titlePrefix: '', // ← New: Adv., Mr., Mrs., Ms., Dr.
-    currentPosition: '', // ← New: Current position
+    titlePrefix: '',
+    currentPosition: '',
     yearOfCall: '',
     practiceAreas: [],
     availability: 'accepting',
@@ -45,9 +45,9 @@ export default function AddBarrister() {
   const currentPositionOptions = [
     { value: '', label: 'Select current position' },
     { value: 'Head of Chambers', label: 'Head of Chambers' },
-    { value: 'Senior Barrister', label: 'Senior Barrister' },
-    { value: 'Barrister', label: 'Barrister' },
-    { value: 'Junior Barrister', label: 'Junior Barrister' },
+    { value: 'Senior Advocate', label: 'Senior Advocate' },
+    { value: 'Advocate', label: 'Advocate' },
+    { value: 'Junior Advocate', label: 'Junior Advocate' },
     { value: 'Pupil', label: 'Pupil' },
     { value: 'Council Member', label: 'Council Member' },
   ]
@@ -154,10 +154,10 @@ export default function AddBarrister() {
         router.refresh()
       } else {
         const data = await res.json()
-        setError(data.error || 'Failed to create barrister')
+        setError(data.error || 'Failed to create advocate profile')
       }
     } catch (error) {
-      console.error('Error creating barrister:', error)
+      console.error('Error creating advocate:', error)
       setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
@@ -175,8 +175,8 @@ export default function AddBarrister() {
           <ArrowLeft className="w-5 h-5 text-[#888]" />
         </Link>
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Add Barrister</h1>
-          <p className="text-sm text-[#888] mt-1">Create a new barrister profile</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Add Advocate</h1>
+          <p className="text-sm text-[#888] mt-1">Create a new advocate profile</p>
         </div>
       </div>
 
@@ -243,9 +243,9 @@ export default function AddBarrister() {
             >
               <option value="">Select title</option>
               <option value="Head of Chambers">Head of Chambers</option>
-              <option value="Senior Barrister">Senior Barrister</option>
-              <option value="Barrister">Barrister</option>
-              <option value="Junior Barrister">Junior Barrister</option>
+              <option value="Senior Advocate">Senior Advocate</option>
+              <option value="Advocate">Advocate</option>
+              <option value="Junior Advocate">Junior Advocate</option>
               <option value="Pupil">Pupil</option>
               <option value="Council Member">Council Member</option>
             </select>
@@ -365,7 +365,7 @@ export default function AddBarrister() {
             onChange={handleChange}
             rows="6"
             className="w-full px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm resize-none"
-            placeholder="Write a detailed biography of the barrister..."
+            placeholder="Write a detailed biography of the advocate..."
           />
         </div>
 
@@ -509,7 +509,7 @@ export default function AddBarrister() {
             className="flex-1 flex items-center justify-center gap-2 bg-[#c9a84c] text-[#0a1628] px-6 py-3 font-bold rounded-xl hover:bg-[#e0c66e] transition-all hover:scale-[1.01] disabled:opacity-70 text-sm"
           >
             <Save className="w-4 h-4" />
-            {loading ? 'Creating...' : 'Create Barrister'}
+            {loading ? 'Creating...' : 'Create Advocate'}
           </button>
           <Link
             href="/admin/barristers"

@@ -25,38 +25,24 @@ export default function AdminBarristers() {
       const data = await res.json()
       
       setBarristers(
-        (data.barristers || []).map((barrister) => {
-          let practiceAreas = []
-          try {
-            // Check if practiceAreas is a string (JSON) or already an array
-            if (typeof barrister.practiceAreas === 'string') {
-              practiceAreas = JSON.parse(barrister.practiceAreas)
-            } else if (Array.isArray(barrister.practiceAreas)) {
-              practiceAreas = barrister.practiceAreas
-            } else {
-              practiceAreas = []
-            }
-          } catch (e) {
-            console.warn('Error parsing practiceAreas for:', barrister.name, e)
-            practiceAreas = []
-          }
-          return {
-            ...barrister,
-            practiceAreas: practiceAreas,
-          }
-        })
+        (data.barristers || []).map((barrister) => ({
+          ...barrister,
+          practiceAreas: Array.isArray(barrister.practiceAreas)
+            ? barrister.practiceAreas
+            : JSON.parse(barrister.practiceAreas || "[]"),
+        }))
       )
       
       setTotalPages(data.totalPages || 1)
     } catch (error) {
-      console.error('Error fetching barristers:', error)
+      console.error('Error fetching advocates:', error)
     } finally {
       setLoading(false)
     }
   }
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this barrister?')) return
+    if (!confirm('Are you sure you want to delete this advocate?')) return
 
     setDeleting(id)
     try {
@@ -64,11 +50,11 @@ export default function AdminBarristers() {
       if (res.ok) {
         fetchBarristers()
       } else {
-        alert('Failed to delete barrister')
+        alert('Failed to delete advocate')
       }
     } catch (error) {
-      console.error('Error deleting barrister:', error)
-      alert('Failed to delete barrister')
+      console.error('Error deleting advocate:', error)
+      alert('Failed to delete advocate')
     } finally {
       setDeleting(null)
     }
@@ -120,15 +106,15 @@ export default function AdminBarristers() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Barristers</h1>
-          <p className="text-sm text-[#888] mt-1">Manage your barristers and their availability</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1628]">Advocates</h1>
+          <p className="text-sm text-[#888] mt-1">Manage your advocates and their availability</p>
         </div>
         <Link
           href="/admin/barristers/new"
           className="flex items-center justify-center gap-2 bg-[#c9a84c] text-[#0a1628] px-4 py-2.5 rounded-xl font-bold hover:bg-[#e0c66e] transition-all hover:scale-[1.02] text-sm whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
-          Add Barrister
+          Add Advocate
         </Link>
       </div>
 
@@ -155,7 +141,7 @@ export default function AdminBarristers() {
           <table className="w-full text-sm">
             <thead className="bg-[#faf8f5] border-b border-[#e8e0d4]">
               <tr>
-                <th className="text-left px-4 py-3 font-semibold text-[#888] uppercase text-xs tracking-wider">Barrister</th>
+                <th className="text-left px-4 py-3 font-semibold text-[#888] uppercase text-xs tracking-wider">Advocate</th>
                 <th className="text-left px-4 py-3 font-semibold text-[#888] uppercase text-xs tracking-wider hidden sm:table-cell">Title</th>
                 <th className="text-left px-4 py-3 font-semibold text-[#888] uppercase text-xs tracking-wider hidden md:table-cell">Practice Areas</th>
                 <th className="text-left px-4 py-3 font-semibold text-[#888] uppercase text-xs tracking-wider">Availability</th>
@@ -165,12 +151,12 @@ export default function AdminBarristers() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-12 text-[#888]">Loading barristers...</td>
+                  <td colSpan="5" className="text-center py-12 text-[#888]">Loading advocates...</td>
                 </tr>
               ) : barristers.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="text-center py-12 text-[#888]">
-                    {search ? 'No barristers found matching your search.' : 'No barristers added yet. Click "Add Barrister" to get started.'}
+                    {search ? 'No advocates found matching your search.' : 'No advocates added yet. Click "Add Advocate" to get started.'}
                   </td>
                 </tr>
               ) : (
