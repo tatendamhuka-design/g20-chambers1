@@ -49,6 +49,7 @@ export default function EditBarrister({ params }) {
     { value: 'Senior Advocate', label: 'Senior Advocate' },
     { value: 'Advocate', label: 'Advocate' },
     { value: 'Junior Advocate', label: 'Junior Advocate' },
+    { value: 'Junior Council', label: 'Junior Council' },  // ← Added here
     { value: 'Pupil', label: 'Pupil' },
     { value: 'Council Member', label: 'Council Member' },
   ]
@@ -273,7 +274,8 @@ export default function EditBarrister({ params }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Full Name *</label>
-            <input              type="text"
+            <input
+              type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -296,6 +298,7 @@ export default function EditBarrister({ params }) {
               <option value="Senior Advocate">Senior Advocate</option>
               <option value="Advocate">Advocate</option>
               <option value="Junior Advocate">Junior Advocate</option>
+              <option value="Junior Council">Junior Council</option>
               <option value="Pupil">Pupil</option>
               <option value="Council Member">Council Member</option>
             </select>

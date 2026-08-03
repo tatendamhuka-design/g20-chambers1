@@ -48,6 +48,7 @@ export default function AddBarrister() {
     { value: 'Senior Advocate', label: 'Senior Advocate' },
     { value: 'Advocate', label: 'Advocate' },
     { value: 'Junior Advocate', label: 'Junior Advocate' },
+    { value: 'Junior Council', label: 'Junior Council' },  // ← Added here
     { value: 'Pupil', label: 'Pupil' },
     { value: 'Council Member', label: 'Council Member' },
   ]
@@ -246,6 +247,7 @@ export default function AddBarrister() {
               <option value="Senior Advocate">Senior Advocate</option>
               <option value="Advocate">Advocate</option>
               <option value="Junior Advocate">Junior Advocate</option>
+              <option value="Junior Council">Junior Council</option>
               <option value="Pupil">Pupil</option>
               <option value="Council Member">Council Member</option>
             </select>
