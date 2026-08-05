@@ -47,7 +47,7 @@ async function getBarristerBySlug(slug) {
   }
 }
 
-// Get related barristers - FIXED to include profileImage
+// Get related barristers
 async function getRelatedBarristers(slug, limit = 3) {
   const current = await getBarristerBySlug(slug)
   if (!current) return []
@@ -66,7 +66,7 @@ async function getRelatedBarristers(slug, limit = 3) {
       name: true,
       title: true,
       yearOfCall: true,
-      profileImage: true,  // ← Added this
+      profileImage: true,
       practiceAreas: true,
       availability: true,
     }
@@ -206,7 +206,7 @@ export default async function BarristerProfile({ params }) {
         }}
       />
 
-      {/* Hero Section */}
+      {/* ===== PREMIUM HERO SECTION ===== */}
       <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
@@ -220,7 +220,9 @@ export default async function BarristerProfile({ params }) {
             Back to all advocates
           </Link>
 
+          {/* Profile Header */}
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
+            {/* Avatar with Image */}
             <div className="relative flex-shrink-0">
               <div className="w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#c9a84c] shadow-2xl shadow-[#c9a84c]/30 bg-[#1a2a3a]">
                 {barrister.profileImage ? (
@@ -235,11 +237,13 @@ export default async function BarristerProfile({ params }) {
                   </div>
                 )}
               </div>
+              {/* Availability Badge Below Avatar */}
               <div className="flex justify-center mt-3">
                 <PremiumAvailabilityBadge status={barrister.availability} />
               </div>
             </div>
 
+            {/* Name and Details */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-1">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
@@ -253,6 +257,7 @@ export default async function BarristerProfile({ params }) {
               </div>
               <p className="text-lg text-[#c9a84c] font-semibold">{barrister.title}</p>
               
+              {/* Meta Info */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-3">
                 <div className="flex items-center gap-2 text-gray-300 text-sm">
                   <Calendar className="w-4 h-4 text-[#c9a84c]" />
@@ -263,6 +268,7 @@ export default async function BarristerProfile({ params }) {
                 </div>
               </div>
 
+              {/* Social Links */}
               {(barrister.socialLinks?.linkedin || barrister.socialLinks?.twitter) && (
                 <div className="flex gap-2 mt-3 justify-center md:justify-start">
                   {barrister.socialLinks?.linkedin && (
@@ -288,6 +294,7 @@ export default async function BarristerProfile({ params }) {
                 </div>
               )}
 
+              {/* Practice Areas */}
               <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-start">
                 {barrister.practiceAreas.map((area) => (
                   <span
@@ -302,10 +309,11 @@ export default async function BarristerProfile({ params }) {
           </div>
         </div>
 
+        {/* Gold Bottom Border */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
-      {/* Main Content */}
+      {/* ===== MAIN CONTENT ===== */}
       <section className="py-10 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Contact Info Bar */}
@@ -436,7 +444,7 @@ export default async function BarristerProfile({ params }) {
             <PDFDownloadButton barrister={barrister} />
           </div>
 
-          {/* Related Advocates - With Images */}
+          {/* Related Barristers */}
           {relatedBarristers.length > 0 && (
             <div className="mt-12 pt-10 border-t border-[#e8e0d4]">
               <h2 className="text-xl font-extrabold text-[#0a1628] mb-6 text-center">

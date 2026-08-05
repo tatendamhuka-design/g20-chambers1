@@ -7,6 +7,7 @@ datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
+
 // Admin users (for login)
 model Admin {
   id        String   @id @default(cuid())
@@ -17,18 +18,20 @@ model Admin {
   updatedAt DateTime @updatedAt
 }
 
-// Barristers
+// Barristers / Advocates
 model Barrister {
   id            String   @id @default(cuid())
   slug          String   @unique
   name          String
   title         String
+  titlePrefix   String?  // Adv., Mr., Mrs., Ms., Dr., Junior Council
+  currentPosition String? // Head of Chambers, Senior Advocate, Advocate, Junior Advocate, Junior Council, Pupil, Council Member
   yearOfCall    Int?
   practiceAreas String   // JSON string: ["Criminal Law", "Human Rights"]
   availability  String   @default("accepting") // accepting, limited, full
   rating        Float?   @default(0)
   reviewCount   Int      @default(0)
-  bio           String?  // Text field without @db.Text
+  bio           String?
   email         String?
   phone         String?
   education     String?
@@ -36,6 +39,7 @@ model Barrister {
   socialLinks   String?  // JSON string: {"linkedin": "", "twitter": ""}
   notableCases  String?  // JSON string: [{"title": "", "year": 2024, "description": ""}]
   reviews       String?  // JSON string: [{"client": "", "rating": 5, "date": "", "comment": ""}]
+  languages     String?  // JSON string: ["English", "Sepedi", "Afrikaans"]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -47,11 +51,11 @@ model Barrister {
 model Staff {
   id            String   @id @default(cuid())
   name          String
-  role          String   // Administrator, Handyman, etc.
+  role          String
   email         String?
   phone         String?
-  department    String?  // Administration, Maintenance, etc.
-  bio           String?  // Remove @db.Text for SQLite
+  department    String?
+  bio           String?
   profileImage  String?
   order         Int      @default(0)
   createdAt     DateTime @default(now())
@@ -68,7 +72,7 @@ model News {
   author        Barrister? @relation(fields: [authorId], references: [id], onDelete: SetNull)
   featuredImage String?
   excerpt       String?
-  content       String?  // HTML content
+  content       String?
   publishedDate DateTime
   seoMetaTitle  String?
   seoMetaDesc   String?
@@ -92,10 +96,28 @@ model Subscriber {
 model Newsletter {
   id            String   @id @default(cuid())
   subject       String
-  content       String?  // HTML email content
+  content       String?
   status        String   @default("draft") // draft, sent, scheduled
   sentDate      DateTime?
   recipients    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Events
+model Event {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  description   String?
+  date          DateTime
+  time          String?
+  location      String?
+  type          String?
+  price         String?
+  image         String?
+  seoMetaTitle  String?
+  seoMetaDesc   String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

@@ -25,12 +25,14 @@ export default function AddBarrister() {
     profileImage: '',
     socialLinks: { linkedin: '', twitter: '' },
     notableCases: [],
-    reviews: []
+    reviews: [],
+    languages: []
   })
 
   const [newPracticeArea, setNewPracticeArea] = useState('')
   const [newCase, setNewCase] = useState({ title: '', year: '', description: '' })
   const [newReview, setNewReview] = useState({ client: '', rating: 5, comment: '' })
+  const [newLanguage, setNewLanguage] = useState('')
 
   const titlePrefixOptions = [
     { value: '', label: 'Select title prefix' },
@@ -48,7 +50,7 @@ export default function AddBarrister() {
     { value: 'Senior Advocate', label: 'Senior Advocate' },
     { value: 'Advocate', label: 'Advocate' },
     { value: 'Junior Advocate', label: 'Junior Advocate' },
-    { value: 'Junior Council', label: 'Junior Council' },  // ← Added here
+    { value: 'Junior Council', label: 'Junior Council' },
     { value: 'Pupil', label: 'Pupil' },
     { value: 'Council Member', label: 'Council Member' },
   ]
@@ -57,6 +59,24 @@ export default function AddBarrister() {
     'Criminal Law', 'Human Rights', 'Civil Litigation', 'Family Law',
     'Immigration Law', 'Employment Law', 'Public Law', 'Administrative Law',
     'Property Law', 'Constitutional Law'
+  ]
+
+  const languageOptions = [
+    'English',
+    'Afrikaans',
+    'Sepedi',
+    'Setswana',
+    'Xitsonga',
+    'Tshivenda',
+    'isiZulu',
+    'isiXhosa',
+    'Sesotho',
+    'isiNdebele',
+    'SiSwati',
+    'Portuguese',
+    'French',
+    'German',
+    'Dutch'
   ]
 
   const handleChange = (e) => {
@@ -125,6 +145,24 @@ export default function AddBarrister() {
     }))
   }
 
+  const addLanguage = (e) => {
+    e.preventDefault()
+    if (newLanguage && !formData.languages.includes(newLanguage)) {
+      setFormData(prev => ({
+        ...prev,
+        languages: [...prev.languages, newLanguage]
+      }))
+      setNewLanguage('')
+    }
+  }
+
+  const removeLanguage = (lang) => {
+    setFormData(prev => ({
+      ...prev,
+      languages: prev.languages.filter(l => l !== lang)
+    }))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -146,7 +184,8 @@ export default function AddBarrister() {
           practiceAreas: formData.practiceAreas,
           socialLinks: formData.socialLinks,
           notableCases: formData.notableCases,
-          reviews: formData.reviews
+          reviews: formData.reviews,
+          languages: formData.languages
         })
       })
 
@@ -318,6 +357,44 @@ export default function AddBarrister() {
               Add
             </button>
           </div>
+        </div>
+
+        {/* Languages */}
+        <div>
+          <label className="block text-sm font-semibold text-[#0a1628] mb-1.5">Languages Spoken</label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {formData.languages.map((lang) => (
+              <span key={lang} className="flex items-center gap-1 bg-[#faf8f5] text-[#555] text-sm px-3 py-1 rounded-full border border-[#e8e0d4]">
+                {lang}
+                <button type="button" onClick={() => removeLanguage(lang)} className="text-[#888] hover:text-red-500">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newLanguage}
+              onChange={(e) => setNewLanguage(e.target.value)}
+              className="flex-1 px-4 py-2.5 rounded-lg border border-[#e8e0d4] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/20 transition text-sm"
+              placeholder="Add language (e.g., English, Sepedi, Afrikaans)"
+              list="languageOptions"
+            />
+            <datalist id="languageOptions">
+              {languageOptions.map((lang) => (
+                <option key={lang} value={lang} />
+              ))}
+            </datalist>
+            <button
+              type="button"
+              onClick={addLanguage}
+              className="px-4 py-2.5 bg-[#0a1628] text-white rounded-lg hover:bg-[#1a2a3a] transition-colors text-sm font-medium whitespace-nowrap"
+            >
+              Add
+            </button>
+          </div>
+          <p className="text-xs text-[#888] mt-1">Add all languages the advocate speaks</p>
         </div>
 
         {/* Contact Info */}
