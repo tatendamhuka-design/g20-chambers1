@@ -19,6 +19,7 @@ import PDFDownloadButton from '@/app/components/PDFDownloadButton'
 
 const prisma = new PrismaClient()
 
+// Generate static paths
 export async function generateStaticParams() {
   const barristers = await prisma.barrister.findMany({
     select: { slug: true }
@@ -28,6 +29,7 @@ export async function generateStaticParams() {
   }))
 }
 
+// Get barrister by slug
 async function getBarristerBySlug(slug) {
   const barrister = await prisma.barrister.findUnique({
     where: { slug }
@@ -40,10 +42,12 @@ async function getBarristerBySlug(slug) {
     practiceAreas: JSON.parse(barrister.practiceAreas || '[]'),
     socialLinks: JSON.parse(barrister.socialLinks || '{}'),
     notableCases: JSON.parse(barrister.notableCases || '[]'),
-    reviews: JSON.parse(barrister.reviews || '[]')
+    reviews: JSON.parse(barrister.reviews || '[]'),
+    languages: JSON.parse(barrister.languages || '[]')
   }
 }
 
+// Get related barristers - FIXED to include profileImage
 async function getRelatedBarristers(slug, limit = 3) {
   const current = await getBarristerBySlug(slug)
   if (!current) return []
@@ -55,7 +59,17 @@ async function getRelatedBarristers(slug, limit = 3) {
         contains: current.practiceAreas[0] || ''
       }
     },
-    take: limit
+    take: limit,
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      title: true,
+      yearOfCall: true,
+      profileImage: true,  // ← Added this
+      practiceAreas: true,
+      availability: true,
+    }
   })
   
   return barristers.map(b => ({
@@ -86,6 +100,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
+// Premium Star Rating
 function PremiumStarRating({ rating, reviewCount }) {
   const fullStars = Math.floor(rating || 0)
   const totalStars = 5
@@ -111,6 +126,7 @@ function PremiumStarRating({ rating, reviewCount }) {
   )
 }
 
+// Premium Availability Badge
 function PremiumAvailabilityBadge({ status }) {
   const config = {
     accepting: {
@@ -145,6 +161,7 @@ export default async function BarristerProfile({ params }) {
 
   const relatedBarristers = await getRelatedBarristers(params.slug)
 
+  // Get initials for fallback
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('')
   }
@@ -153,6 +170,7 @@ export default async function BarristerProfile({ params }) {
     <main className="w-full overflow-x-hidden">
       <Header />
 
+      {/* Breadcrumb */}
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <Breadcrumb items={[
           { label: 'Advocates', href: '/barristers' },
@@ -160,6 +178,7 @@ export default async function BarristerProfile({ params }) {
         ]} />
       </div>
 
+      {/* Schema Markup */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -187,6 +206,7 @@ export default async function BarristerProfile({ params }) {
         }}
       />
 
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#0a1628] via-[#1a2a4a] to-[#0a1628] text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c9a84c]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-[#c9a84c]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
@@ -285,8 +305,10 @@ export default async function BarristerProfile({ params }) {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent"></div>
       </section>
 
+      {/* Main Content */}
       <section className="py-10 md:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Contact Info Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 p-4 bg-[#faf8f5] rounded-xl border border-[#e8e0d4]">
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-[#c9a84c] flex-shrink-0" />
@@ -315,6 +337,7 @@ export default async function BarristerProfile({ params }) {
             </div>
           </div>
 
+          {/* Biography */}
           <div className="mb-10">
             <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
               <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
@@ -325,6 +348,24 @@ export default async function BarristerProfile({ params }) {
             </div>
           </div>
 
+          {/* Languages */}
+          {barrister.languages && barrister.languages.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
+                <span className="w-1 h-8 bg-[#c9a84c] rounded-full"></span>
+                Languages
+              </h2>
+              <div className="flex flex-wrap gap-2 pl-4">
+                {barrister.languages.map((lang) => (
+                  <span key={lang} className="bg-[#faf8f5] text-[#555] text-sm px-3 py-1 rounded-full border border-[#e8e0d4]">
+                    {lang}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Notable Cases */}
           {barrister.notableCases && barrister.notableCases.length > 0 && (
             <div className="mb-10">
               <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
@@ -352,6 +393,7 @@ export default async function BarristerProfile({ params }) {
             </div>
           )}
 
+          {/* Client Reviews */}
           {barrister.reviews && barrister.reviews.length > 0 && (
             <div className="mb-10">
               <h2 className="text-2xl font-extrabold text-[#0a1628] mb-4 flex items-center gap-3">
@@ -375,6 +417,7 @@ export default async function BarristerProfile({ params }) {
             </div>
           )}
 
+          {/* Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-[#e8e0d4]">
             <a
               href="/contact"
@@ -393,6 +436,7 @@ export default async function BarristerProfile({ params }) {
             <PDFDownloadButton barrister={barrister} />
           </div>
 
+          {/* Related Advocates - With Images */}
           {relatedBarristers.length > 0 && (
             <div className="mt-12 pt-10 border-t border-[#e8e0d4]">
               <h2 className="text-xl font-extrabold text-[#0a1628] mb-6 text-center">
@@ -405,8 +449,16 @@ export default async function BarristerProfile({ params }) {
                     href={`/barristers/${related.slug}`}
                     className="group bg-[#faf8f5] rounded-xl p-4 border border-[#e8e0d4] hover:border-[#c9a84c] hover:shadow-lg transition-all duration-300 text-center hover:-translate-y-1"
                   >
-                    <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#0a1628] to-[#1a2a3a] flex items-center justify-center text-lg font-bold text-white mb-2 group-hover:from-[#c9a84c] group-hover:to-[#e0c66e] transition-all duration-300">
-                      {related.name.split(' ').map(n => n[0]).join('')}
+                    <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-[#0a1628] to-[#1a2a3a] flex items-center justify-center text-lg font-bold text-white mb-2 group-hover:from-[#c9a84c] group-hover:to-[#e0c66e] transition-all duration-300 overflow-hidden">
+                      {related.profileImage ? (
+                        <img 
+                          src={related.profileImage} 
+                          alt={related.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        related.name.split(' ').map(n => n[0]).join('')
+                      )}
                     </div>
                     <h3 className="font-bold text-[#0a1628] text-sm group-hover:text-[#c9a84c] transition-colors">
                       {related.name}
