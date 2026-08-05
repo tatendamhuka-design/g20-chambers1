@@ -25,7 +25,8 @@ export async function GET(request, { params }) {
       practiceAreas: JSON.parse(barrister.practiceAreas || '[]'),
       socialLinks: JSON.parse(barrister.socialLinks || '{}'),
       notableCases: JSON.parse(barrister.notableCases || '[]'),
-      reviews: JSON.parse(barrister.reviews || '[]')
+      reviews: JSON.parse(barrister.reviews || '[]'),
+      languages: JSON.parse(barrister.languages || '[]')
     })
   } catch (error) {
     console.error('Error fetching barrister:', error)
@@ -48,17 +49,20 @@ export async function PUT(request, { params }) {
       data: {
         name: data.name,
         title: data.title,
-        yearOfCall: data.yearOfCall,
+        titlePrefix: data.titlePrefix || '',
+        currentPosition: data.currentPosition || '',
+        yearOfCall: data.yearOfCall || null,
         practiceAreas: JSON.stringify(data.practiceAreas || []),
         availability: data.availability || 'accepting',
-        bio: data.bio,
-        email: data.email,
-        phone: data.phone,
-        education: data.education,
-        profileImage: data.profileImage,
+        bio: data.bio || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        education: data.education || '',
+        profileImage: data.profileImage || '',
         socialLinks: JSON.stringify(data.socialLinks || {}),
         notableCases: JSON.stringify(data.notableCases || []),
-        reviews: JSON.stringify(data.reviews || [])
+        reviews: JSON.stringify(data.reviews || []),
+        languages: JSON.stringify(data.languages || [])
       }
     })
 

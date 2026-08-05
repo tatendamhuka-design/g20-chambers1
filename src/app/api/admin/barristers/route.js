@@ -43,7 +43,8 @@ export async function GET(request) {
       practiceAreas: barrister.practiceAreas ? JSON.parse(barrister.practiceAreas) : [],
       socialLinks: barrister.socialLinks ? JSON.parse(barrister.socialLinks) : {},
       notableCases: barrister.notableCases ? JSON.parse(barrister.notableCases) : [],
-      reviews: barrister.reviews ? JSON.parse(barrister.reviews) : []
+      reviews: barrister.reviews ? JSON.parse(barrister.reviews) : [],
+      languages: barrister.languages ? JSON.parse(barrister.languages) : []
     }))
 
     return Response.json({
@@ -75,11 +76,20 @@ export async function POST(request) {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '')
 
+    // Check if slug exists
+    const existing = await prisma.barrister.findUnique({
+      where: { slug }
+    })
+
+    const finalSlug = existing ? `${slug}-${Date.now()}` : slug
+
     const barrister = await prisma.barrister.create({
       data: {
         name: data.name,
-        slug,
+        slug: finalSlug,
         title: data.title,
+        titlePrefix: data.titlePrefix || '',
+        currentPosition: data.currentPosition || '',
         yearOfCall: data.yearOfCall || null,
         practiceAreas: JSON.stringify(data.practiceAreas || []),
         availability: data.availability || 'accepting',
@@ -90,7 +100,8 @@ export async function POST(request) {
         profileImage: data.profileImage || '',
         socialLinks: JSON.stringify(data.socialLinks || {}),
         notableCases: JSON.stringify(data.notableCases || []),
-        reviews: JSON.stringify(data.reviews || [])
+        reviews: JSON.stringify(data.reviews || []),
+        languages: JSON.stringify(data.languages || [])
       }
     })
 
